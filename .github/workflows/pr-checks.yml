@@ -21,7 +21,13 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          # Clear npm cache to avoid optional dependency issues
+          npm cache clean --force || true
+          # Install with optional dependencies explicitly included
+          npm install --include=optional
+          # Workaround: Ensure Rollup native binaries are installed (npm optional deps bug)
+          npm install @rollup/rollup-linux-x64-gnu --no-save || true
 
       - name: Run TypeScript type check
         run: npm run type-check
@@ -47,7 +53,13 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          # Clear npm cache to avoid optional dependency issues
+          npm cache clean --force || true
+          # Install with optional dependencies explicitly included
+          npm install --include=optional
+          # Workaround: Ensure Rollup native binaries are installed (npm optional deps bug)
+          npm install @rollup/rollup-linux-x64-gnu --no-save || true
 
       - name: Run tests with coverage
         run: npm run test:coverage
