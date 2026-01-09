@@ -25,3 +25,12 @@ dist-ssr
 
 # Instructions folder (not pushed to GitHub)
 instructions/
+
+# Testing
+coverage
+.nyc_output
+
+# Environment
+.env
+.env.local
+.env.*.local

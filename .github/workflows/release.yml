@@ -1,0 +1,132 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get current version
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Determine version bump from commits
+        id: version_bump
+        run: |
+          # Get last tag or use v0.0.0 as default
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Last tag: $LAST_TAG"
+          
+          # Get commits since last tag (or last 20 commits if no tag)
+          if [ "$LAST_TAG" != "v0.0.0" ]; then
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"%s" || echo "")
+          else
+            COMMITS=$(git log -20 --pretty=format:"%s" || echo "")
+          fi
+          
+          echo "Recent commits:"
+          echo "$COMMITS"
+          
+          # Determine version bump based on commit types (semantic versioning)
+          if echo "$COMMITS" | grep -qE "^(feat|feature)(\(.+\))?:"; then
+            BUMP="minor"
+            echo "bump=minor" >> $GITHUB_OUTPUT
+            echo "Version bump: MINOR (new features detected)"
+          elif echo "$COMMITS" | grep -qE "^(fix|bugfix)(\(.+\))?:"; then
+            BUMP="patch"
+            echo "bump=patch" >> $GITHUB_OUTPUT
+            echo "Version bump: PATCH (bug fixes detected)"
+          elif echo "$COMMITS" | grep -qE "BREAKING CHANGE"; then
+            BUMP="major"
+            echo "bump=major" >> $GITHUB_OUTPUT
+            echo "Version bump: MAJOR (breaking changes detected)"
+          else
+            BUMP="patch"
+            echo "bump=patch" >> $GITHUB_OUTPUT
+            echo "Version bump: PATCH (default)"
+          fi
+
+      - name: Calculate new semantic version
+        id: new_version
+        run: |
+          CURRENT_VERSION="${{ steps.get_version.outputs.current_version }}"
+          BUMP="${{ steps.version_bump.outputs.bump }}"
+          
+          # Remove 'v' prefix if present and parse version
+          VERSION_NO_V=${CURRENT_VERSION#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION_NO_V"
+          
+          # Bump version based on type
+          if [ "$BUMP" == "major" ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [ "$BUMP" == "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+          
+          NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New semantic version: $NEW_VERSION"
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          chmod +x .github/scripts/generate-release-notes.js
+          node .github/scripts/generate-release-notes.js > release-notes.md
+          echo "Release notes generated:"
+          cat release-notes.md
+
+      - name: Create Git tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.new_version.outputs.new_version }}" -m "Release ${{ steps.new_version.outputs.new_version }}"
+          git push origin "${{ steps.new_version.outputs.new_version }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.new_version.outputs.new_version }}
+          name: Release ${{ steps.new_version.outputs.new_version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update package.json version
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.new_version }}"
+          VERSION_NO_V=${NEW_VERSION#v}
+          npm version $VERSION_NO_V --no-git-tag-version
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: bump version to $NEW_VERSION" || exit 0
+          git push origin main
