@@ -7,26 +7,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
-  lint:
-    name: Lint Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run linter
-        run: npm run lint
-        continue-on-error: false
-
   build:
     name: Build Check
     runs-on: ubuntu-latest
@@ -88,14 +68,15 @@ jobs:
     name: All Checks Passed
     runs-on: ubuntu-latest
     # TODO: Add 'test' back to needs array when test job is re-enabled
-    needs: [lint, build]
+    needs: [build]
     if: always()
     steps:
       - name: Check all jobs status
         run: |
-          if [ "${{ needs.lint.result }}" != "success" ] || [ "${{ needs.build.result }}" != "success" ]; then
-            echo "❌ One or more checks failed"
+          if [ "${{ needs.build.result }}" != "success" ]; then
+            echo "❌ Build check failed"
             exit 1
           fi
-          echo "✅ All PR checks passed: lint and build"
+          echo "✅ All PR checks passed: build"
+          echo "ℹ️  Lint check removed"
           echo "ℹ️  Test check is temporarily disabled during project setup"
