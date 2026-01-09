@@ -22,18 +22,17 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Verify package-lock.json exists
         run: |
-          if [ -f "package-lock.json" ]; then
-            echo "package-lock.json found, using npm ci"
-            npm ci || {
-              echo "⚠️ npm ci failed, falling back to npm install"
-              npm install
-            }
-          else
-            echo "⚠️ package-lock.json not found, using npm install"
-            npm install
+          if [ ! -f "package-lock.json" ]; then
+            echo "❌ ERROR: package-lock.json is required for reproducible builds"
+            echo "Please run 'npm install' locally and commit package-lock.json"
+            exit 1
           fi
+          echo "✅ package-lock.json found"
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Get current version
         id: get_version
