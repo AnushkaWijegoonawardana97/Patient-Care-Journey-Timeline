@@ -15,13 +15,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary colors
+        // Primary colors (based on #21404b)
         primary: {
-          DEFAULT: "#3B82F6",
-          base: "#3B82F6",
-          hover: "#2563EB",
-          light: "#DBEAFE",
-          dark: "#1E40AF",
+          DEFAULT: "#21404b",
+          base: "#21404b",
+          hover: "#1a333b",
+          light: "#e8f0f2",
+          dark: "#0f1f25",
         },
         // Secondary colors (Success/Progress)
         secondary: {
