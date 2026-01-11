@@ -1,29 +1,19 @@
 import * as React from "react";
 import type { Patient, Visit } from "@/types/journey";
 import { CircularProgress } from "@/components/atoms/CircularProgress/CircularProgress";
-import { cn } from "@/lib/utils";
 
 export interface JourneyStatusHeaderProps {
   patient: Patient;
   visits: Visit[];
-  onInsuranceTypeChange?: (type: "standard" | "medi-cal") => void;
 }
 
-export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({
-  patient,
-  visits,
-  onInsuranceTypeChange,
-}) => {
-  const [insuranceType, setInsuranceType] = React.useState<"standard" | "medi-cal">(
-    patient.insuranceType
-  );
-
+export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({ patient, visits }) => {
   const relevantVisits = React.useMemo(() => {
     return visits.filter((v) => {
-      if (insuranceType === "standard" && v.type === "additional_postpartum") return false;
+      if (patient.insuranceType === "standard" && v.type === "additional_postpartum") return false;
       return true;
     });
-  }, [visits, insuranceType]);
+  }, [visits, patient.insuranceType]);
 
   const completedVisits = relevantVisits.filter((v) => v.status === "completed").length;
   const totalVisits = relevantVisits.length;
@@ -34,10 +24,7 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({
       ? `${patient.currentWeek} weeks pregnant`
       : `${Math.abs(patient.currentWeek)} weeks postpartum`;
 
-  const handleInsuranceToggle = (type: "standard" | "medi-cal") => {
-    setInsuranceType(type);
-    onInsuranceTypeChange?.(type);
-  };
+  const insuranceTypeLabel = patient.insuranceType === "medi-cal" ? "Medi-Cal" : "Standard";
 
   return (
     <div className="bg-white border-b border-gray-200 sticky top-16 z-20">
@@ -53,35 +40,13 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({
             </div>
           </div>
 
-          {onInsuranceTypeChange && (
-            <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-200">
-              <span className="text-sm font-medium text-text-secondary pl-2">Plan:</span>
-              <div className="flex bg-white rounded-md shadow-sm p-1">
-                <button
-                  onClick={() => handleInsuranceToggle("standard")}
-                  className={cn(
-                    "px-3 py-1.5 text-xs font-semibold rounded transition-colors",
-                    insuranceType === "standard"
-                      ? "bg-primary text-white shadow-sm"
-                      : "text-text-secondary hover:text-text-primary"
-                  )}
-                >
-                  Standard
-                </button>
-                <button
-                  onClick={() => handleInsuranceToggle("medi-cal")}
-                  className={cn(
-                    "px-3 py-1.5 text-xs font-semibold rounded transition-colors",
-                    insuranceType === "medi-cal"
-                      ? "bg-primary text-white shadow-sm"
-                      : "text-text-secondary hover:text-text-primary"
-                  )}
-                >
-                  Medi-Cal
-                </button>
-              </div>
+          {/* Display insurance type as read-only */}
+          <div className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-200">
+            <span className="text-sm font-medium text-text-secondary pl-2">Plan:</span>
+            <div className="px-3 py-1.5 text-xs font-semibold bg-primary text-white rounded shadow-sm">
+              {insuranceTypeLabel}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

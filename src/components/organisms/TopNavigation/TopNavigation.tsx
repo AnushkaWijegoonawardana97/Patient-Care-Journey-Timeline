@@ -42,7 +42,7 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
       <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 container mx-auto">
         {/* Logo */}
         <div className="flex items-center">
-          <img src="/logo-dark.png" alt="Raya Health" className="h-10 w-auto" />
+          <img src="/logo-dark.png" alt="Raya Health" className="h-20 w-auto" />
         </div>
 
         {/* Center Navigation */}
@@ -120,32 +120,6 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      <nav className="md:hidden border-t border-gray-200 px-4 py-2 overflow-x-auto">
-        <div className="flex items-center gap-1">
-          {navigationItems.map((item) => {
-            const isActive = activeNavItem === item.label || location.pathname === item.to;
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-colors",
-                  isActive
-                    ? "bg-secondary-success text-white"
-                    : "text-text-secondary hover:bg-gray-100"
-                )}
-              >
-                <Icon className="h-4 w-4" />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
     </header>
   );
 };

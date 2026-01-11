@@ -1,50 +1,19 @@
 import * as React from "react";
 import { format } from "date-fns";
-import { AlertCircle, RefreshCw } from "lucide-react";
 import { DashboardLayout } from "@/components/templates/DashboardLayout/DashboardLayout";
 import { WelcomeBanner } from "@/components/organisms/WelcomeBanner/WelcomeBanner";
 import { PatientProfile } from "@/components/organisms/PatientProfile/PatientProfile";
 import { SummaryCardsGrid } from "@/components/organisms/SummaryCardsGrid/SummaryCardsGrid";
 import { MiniJourneyPreview } from "@/components/organisms/MiniJourneyPreview/MiniJourneyPreview";
-import { Button } from "@/components/atoms/Button/Button";
+import { LoadingSkeleton } from "@/components/molecules/LoadingSkeleton/LoadingSkeleton";
+import { ErrorState } from "@/components/molecules/ErrorState/ErrorState";
 import { usePatientJourney } from "@/hooks/usePatientJourney";
 import { useAuth } from "@/hooks/useAuth";
 
-/** Loading skeleton for the dashboard */
-const DashboardLoadingSkeleton: React.FC = () => (
-  <div className="animate-pulse space-y-4 lg:space-y-6 mt-6 lg:mt-8">
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-      <div className="lg:col-span-2 h-48 bg-gray-200 rounded-lg" />
-      <div className="h-48 bg-gray-200 rounded-lg" />
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="h-32 bg-gray-200 rounded-lg" />
-      ))}
-    </div>
-    <div className="h-64 bg-gray-200 rounded-lg" />
-  </div>
-);
-
-/** Error state component */
-const DashboardErrorState: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
-  <div className="flex flex-col items-center justify-center py-16 px-4">
-    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-      <AlertCircle className="w-8 h-8 text-red-600" />
-    </div>
-    <h2 className="text-xl font-bold text-text-primary mb-2">Unable to Load Dashboard</h2>
-    <p className="text-text-secondary text-center mb-6 max-w-md">
-      We couldn't load your dashboard data. Please check your connection and try again.
-    </p>
-    <Button onClick={onRetry} className="flex items-center gap-2">
-      <RefreshCw className="w-4 h-4" />
-      Try Again
-    </Button>
-  </div>
-);
-
 /** Get current phase based on week */
-function getCurrentPhase(week: number): "First Trimester" | "Second Trimester" | "Third Trimester" | "Postpartum" {
+function getCurrentPhase(
+  week: number
+): "First Trimester" | "Second Trimester" | "Third Trimester" | "Postpartum" {
   if (week <= 0) return "Postpartum";
   if (week <= 13) return "First Trimester";
   if (week <= 27) return "Second Trimester";
@@ -96,7 +65,9 @@ export const Dashboard: React.FC = () => {
       nextVisit,
       journeyStatus,
       upcomingMilestone: upcomingMilestone?.title || "No upcoming milestones",
-      milestoneDate: upcomingMilestone ? format(new Date(upcomingMilestone.date), "MMMM d, yyyy") : undefined,
+      milestoneDate: upcomingMilestone
+        ? format(new Date(upcomingMilestone.date), "MMMM d, yyyy")
+        : undefined,
     };
   }, [journey]);
 
@@ -104,7 +75,7 @@ export const Dashboard: React.FC = () => {
   if (isLoading) {
     return (
       <DashboardLayout activeNavItem="Dashboard" patientName="Loading...">
-        <DashboardLoadingSkeleton />
+        <LoadingSkeleton variant="dashboard" />
       </DashboardLayout>
     );
   }
@@ -113,7 +84,11 @@ export const Dashboard: React.FC = () => {
   if (isError) {
     return (
       <DashboardLayout activeNavItem="Dashboard" patientName={user?.name || "User"}>
-        <DashboardErrorState onRetry={refetch} />
+        <ErrorState
+          title="Unable to Load Dashboard"
+          message="We couldn't load your dashboard data. Please check your connection and try again."
+          onRetry={refetch}
+        />
       </DashboardLayout>
     );
   }
@@ -121,7 +96,8 @@ export const Dashboard: React.FC = () => {
   // Use API data or fallback to defaults
   const patientName = dashboardData?.patientName || user?.name || "User";
   const phase = dashboardData?.phase || ("Second Trimester" as const);
-  const promptMessage = "You have upcoming appointments and milestones. How would you like to continue your care journey today?";
+  const promptMessage =
+    "You have upcoming appointments and milestones. How would you like to continue your care journey today?";
 
   const visitProgress = dashboardData?.visitProgress || { completed: 0, total: 0 };
   const nextVisit = dashboardData?.nextVisit || {
