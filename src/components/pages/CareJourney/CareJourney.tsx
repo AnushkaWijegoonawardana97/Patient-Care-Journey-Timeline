@@ -62,15 +62,15 @@ export const CareJourney: React.FC = () => {
 
   return (
     <DashboardLayout activeNavItem="Care Journey" patientName={journey.patient.name}>
-      <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+      <div className="space-y-4 lg:space-y-6 mt-6 lg:mt-8">
         <JourneyStatusHeader patient={journey.patient} visits={journey.visits} />
+        <TimelineContainer
+          patient={journey.patient}
+          visits={journey.visits}
+          milestones={journey.milestones}
+          onVisitClick={handleVisitClick}
+        />
       </div>
-      <TimelineContainer
-        patient={journey.patient}
-        visits={journey.visits}
-        milestones={journey.milestones}
-        onVisitClick={handleVisitClick}
-      />
       <VisitDetailDrawer visit={selectedVisit} isOpen={isDrawerOpen} onClose={handleCloseDrawer} />
     </DashboardLayout>
   );

@@ -1,18 +1,12 @@
 import * as React from "react";
-import {
-  X,
-  Calendar,
-  Clock,
-  User,
-  FileText,
-  CheckCircle2,
-  Circle,
-  AlertCircle,
-} from "lucide-react";
+import { X, Calendar, Clock, User, FileText, CheckCircle2 } from "lucide-react";
 import type { Visit } from "@/types/journey";
 import { format } from "date-fns";
-import { Button } from "@/components/atoms/Button/Button";
 import { Avatar } from "@/components/atoms/Avatar/Avatar";
+import { StatusBadge } from "@/components/molecules/StatusBadge/StatusBadge";
+import { VisitInfoItem } from "@/components/molecules/VisitInfoItem/VisitInfoItem";
+import { getVisitTitle } from "@/utils/visit.utils";
+import { VISIT_STATUS_CONFIG } from "@/utils/visit.constants";
 import { cn } from "@/lib/utils";
 
 export interface VisitDetailDrawerProps {
@@ -21,69 +15,17 @@ export interface VisitDetailDrawerProps {
   onClose: () => void;
 }
 
-const getVisitTitle = (visit: Visit): string => {
-  switch (visit.type) {
-    case "initial":
-      return "Initial Consultation";
-    case "labor_delivery":
-      return "Labor & Delivery";
-    case "pregnancy_loss":
-      return "Pregnancy Loss Support";
-    case "extended_postpartum":
-      return `Extended Postpartum Visit ${visit.visitNumber}`;
-    case "additional_postpartum":
-      return `Additional Postpartum Visit ${visit.visitNumber}`;
-    default:
-      return `Prenatal/Postpartum Visit ${visit.visitNumber} of ${visit.totalOfType}`;
-  }
-};
-
-const getStatusLabel = (status: Visit["status"]): string => {
-  switch (status) {
-    case "completed":
-      return "Completed";
-    case "scheduled":
-      return "Scheduled";
-    case "available":
-      return "Available";
-    case "missed":
-      return "Missed";
-    case "cancelled":
-      return "Cancelled";
-  }
-};
-
-const getStatusIcon = (status: Visit["status"]) => {
-  switch (status) {
-    case "completed":
-      return <CheckCircle2 className="w-4 h-4" />;
-    case "scheduled":
-      return <Calendar className="w-4 h-4" />;
-    case "available":
-      return <Circle className="w-4 h-4" />;
-    case "missed":
-      return <AlertCircle className="w-4 h-4" />;
-    case "cancelled":
-      return <X className="w-4 h-4" />;
-  }
-};
-
-const getStatusBadgeStyles = (status: Visit["status"]) => {
-  switch (status) {
-    case "completed":
-      return "bg-secondary-light text-secondary-emphasis border-secondary-success/20";
-    case "scheduled":
-      return "bg-primary-light text-primary border-primary/20";
-    case "missed":
-      return "bg-red-50 text-red-700 border-red-200";
-    case "cancelled":
-      return "bg-gray-100 text-gray-700 border-gray-300";
-    default:
-      return "bg-gray-100 text-gray-700 border-gray-300";
-  }
-};
-
 export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isOpen, onClose }) => {
+  const statusConfig = React.useMemo(() => {
+    if (!visit) return null;
+    return VISIT_STATUS_CONFIG[visit.status];
+  }, [visit?.status]);
+
+  const visitTitle = React.useMemo(() => {
+    if (!visit) return "";
+    return getVisitTitle(visit);
+  }, [visit]);
+
   React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -100,13 +42,13 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/50 z-40 lg:bg-black/30"
+        className="fixed inset-0 bg-black/50 z-40 lg:bg-black/30 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
         className={cn(
-          "fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out",
+          "fixed inset-y-0 right-0 w-full max-w-2xl bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out",
           "lg:translate-x-0",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
@@ -115,104 +57,137 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
         aria-labelledby="visit-detail-title"
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gray-50/50">
-            <h2 id="visit-detail-title" className="text-xl font-bold text-text-primary">
-              Visit Details
-            </h2>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-              aria-label="Close drawer"
-            >
-              <X className="h-5 w-5 text-text-secondary" />
-            </button>
-          </div>
+          <div className="flex-1 overflow-y-auto">
+            {/* Visit Header Section with Background Image */}
+            <div className={cn("relative p-8 border-b overflow-hidden", "border-gray-200")}>
+              {/* Background Image with Overlay */}
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: "url('/overnight-doula-image.jpg')",
+                }}
+                aria-hidden="true"
+              />
+              {/* Gradient Overlay for Text Readability */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/70" />
+              {/* Subtle Pattern Overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px] opacity-30" />
 
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
-            <div className="pb-4 border-b border-gray-200">
-              <h3 className="text-2xl font-bold text-text-primary mb-3">{getVisitTitle(visit)}</h3>
-              {visit.type === "prenatal_postpartum" && (
-                <p className="text-sm text-text-secondary mb-3">
-                  Visit {visit.visitNumber} of {visit.totalOfType}
-                </p>
-              )}
-              <div className="flex items-center gap-2">
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border",
-                    getStatusBadgeStyles(visit.status)
-                  )}
-                >
-                  {getStatusIcon(visit.status)}
-                  {getStatusLabel(visit.status)}
-                </span>
+              {/* Close Button - Top Right */}
+              <button
+                onClick={onClose}
+                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary/50 shadow-lg"
+                aria-label="Close drawer"
+              >
+                <X className="h-5 w-5 text-text-primary" />
+              </button>
+
+              {/* Content */}
+              <div className="relative z-10">
+                <div className="flex flex-col items-start justify-between gap-4 mb-4">
+                  <div className="flex-1">
+                    <h3
+                      id="visit-detail-title"
+                      className="text-3xl font-bold text-white mb-3 drop-shadow-lg"
+                    >
+                      {visitTitle}
+                    </h3>
+                    {visit.type === "prenatal_postpartum" && (
+                      <p className="text-base text-white/90 mb-4 font-medium">
+                        Visit {visit.visitNumber} of {visit.totalOfType}
+                      </p>
+                    )}
+                  </div>
+                  <StatusBadge
+                    status={visit.status}
+                    size="md"
+                    className="bg-white/95 backdrop-blur-sm"
+                  />
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="flex items-center gap-2 mt-6">
+                  <div className="h-1 w-12 bg-white/60 rounded-full" />
+                  <div className="h-1 w-8 bg-white/40 rounded-full" />
+                  <div className="h-1 w-4 bg-white/30 rounded-full" />
+                </div>
               </div>
             </div>
 
-            <div className="space-y-4">
+            {/* Visit Information Section */}
+            <div className="p-6 lg:p-8 space-y-5 bg-gradient-to-b from-white to-gray-50/30">
               {visit.scheduledDate && (
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-0.5">
-                    <div className="w-10 h-10 rounded-lg bg-primary-light flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-primary" />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-text-secondary mb-1">Scheduled Date</p>
-                    <p className="text-base text-text-primary">
+                <VisitInfoItem
+                  icon={Calendar}
+                  iconBg="bg-gradient-to-br from-blue-500 to-indigo-600"
+                  iconColor="text-white"
+                  label="Scheduled Date"
+                  value={
+                    <time dateTime={visit.scheduledDate}>
                       {format(new Date(visit.scheduledDate), "EEEE, MMMM d, yyyy")}
-                    </p>
-                    <p className="text-sm text-text-secondary">
+                    </time>
+                  }
+                  secondaryValue={
+                    <time dateTime={visit.scheduledDate}>
                       {format(new Date(visit.scheduledDate), "h:mm a")}
-                    </p>
-                  </div>
-                </div>
+                    </time>
+                  }
+                />
               )}
 
               {visit.completedDate && (
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-0.5">
-                    <div className="w-10 h-10 rounded-lg bg-secondary-light flex items-center justify-center">
-                      <CheckCircle2 className="w-5 h-5 text-secondary-success" />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-text-secondary mb-1">Completed Date</p>
-                    <p className="text-base text-text-primary">
+                <VisitInfoItem
+                  icon={CheckCircle2}
+                  iconBg="bg-gradient-to-br from-emerald-500 to-green-600"
+                  iconColor="text-white"
+                  label="Completed Date"
+                  value={
+                    <time dateTime={visit.completedDate}>
                       {format(new Date(visit.completedDate), "EEEE, MMMM d, yyyy")}
-                    </p>
-                    <p className="text-sm text-text-secondary">
+                    </time>
+                  }
+                  secondaryValue={
+                    <time dateTime={visit.completedDate}>
                       {format(new Date(visit.completedDate), "h:mm a")}
-                    </p>
-                  </div>
-                </div>
+                    </time>
+                  }
+                />
               )}
 
               {visit.durationMinutes && (
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-0.5">
-                    <div className="w-10 h-10 rounded-lg bg-primary-light flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-primary" />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-text-secondary mb-1">Duration</p>
-                    <p className="text-base text-text-primary">{visit.durationMinutes} minutes</p>
-                  </div>
-                </div>
+                <VisitInfoItem
+                  icon={Clock}
+                  iconBg="bg-gradient-to-br from-blue-500 to-indigo-600"
+                  iconColor="text-white"
+                  label="Duration"
+                  value={`${visit.durationMinutes} minutes`}
+                />
               )}
             </div>
 
+            {/* Doula Section */}
             {visit.doula && (
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex items-center gap-2 mb-4">
-                  <User className="w-5 h-5 text-text-secondary" />
-                  <p className="text-sm font-semibold text-text-secondary">Assigned Doula</p>
+              <div className="px-6 lg:px-8 py-6 border-t border-gray-200 bg-white">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-md">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-text-primary">Your Care Provider</p>
+                    <p className="text-xs text-text-secondary">Assigned Doula</p>
+                  </div>
                 </div>
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <div
+                  className={cn(
+                    "rounded-2xl border-2 p-5 shadow-md transition-all hover:shadow-lg",
+                    "bg-gradient-to-br",
+                    statusConfig?.gradient || "from-purple-50/50 to-pink-50/30",
+                    "border-purple-200/50"
+                  )}
+                >
                   <div className="flex items-center gap-3">
                     <Avatar
-                      src={visit.doula.photo}
+                      src={visit.doula.photo || "/doula-avatar.JPG"}
                       alt={visit.doula.name}
                       fallback={visit.doula.name}
                       size="lg"
@@ -222,12 +197,14 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
                         {visit.doula.name}
                       </p>
                       {visit.doula.languages.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-xs font-medium text-text-secondary">Languages:</span>
-                          {visit.doula.languages.map((lang, index) => (
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                          <span className="text-xs font-medium text-text-secondary">
+                            Languages:
+                          </span>
+                          {visit.doula.languages.map((lang: string, index: number) => (
                             <span
                               key={index}
-                              className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-white border border-gray-200 text-text-primary"
+                              className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-white border border-gray-200 text-text-primary shadow-sm"
                             >
                               {lang}
                             </span>
@@ -240,23 +217,34 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
               </div>
             )}
 
+            {/* Notes Section */}
             {visit.notes && (
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex items-center gap-2 mb-3">
-                  <FileText className="w-5 h-5 text-text-secondary" />
-                  <p className="text-sm font-semibold text-text-secondary">Notes</p>
+              <div className="px-6 lg:px-8 pt-6 pb-6 border-t border-gray-200 bg-gradient-to-b from-gray-50/30 to-white">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
+                    <FileText className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-text-primary">Visit Notes</p>
+                    <p className="text-xs text-text-secondary">
+                      Important information from your visit
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-primary-light/30 border border-primary-light rounded-lg p-4">
-                  <p className="text-sm text-text-primary leading-relaxed">{visit.notes}</p>
+                <div
+                  className={cn(
+                    "rounded-2xl border-2 p-5 shadow-md",
+                    "bg-gradient-to-br",
+                    statusConfig?.gradient || "from-blue-50/50 to-indigo-50/30",
+                    "border-blue-200/50"
+                  )}
+                >
+                  <p className="text-sm text-text-primary leading-relaxed whitespace-pre-wrap">
+                    {visit.notes}
+                  </p>
                 </div>
               </div>
             )}
-          </div>
-
-          <div className="p-6 border-t border-gray-200 bg-gray-50/50">
-            <Button onClick={onClose} className="w-full" variant="secondary">
-              Close
-            </Button>
           </div>
         </div>
       </div>

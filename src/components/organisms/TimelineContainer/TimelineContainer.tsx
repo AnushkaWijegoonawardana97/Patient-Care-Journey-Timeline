@@ -3,6 +3,7 @@ import { compareAsc, parseISO } from "date-fns";
 import type { Patient, Visit, Milestone } from "@/types/journey";
 import { VisitCard } from "@/components/molecules/VisitCard/VisitCard";
 import { MilestoneMarker } from "@/components/molecules/MilestoneMarker/MilestoneMarker";
+import { cn } from "@/lib/utils";
 
 export interface TimelineContainerProps {
   patient: Patient;
@@ -60,7 +61,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   }, [visits, milestones, patient.insuranceType, patient.carePathway]);
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-sm border border-gray-100 min-h-[600px]">
+    <div className=" p-4 sm:p-6 bg-white rounded-lg shadow-sm border border-gray-100 min-h-[600px]">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-text-primary">Your Care Journey</h2>
         <p className="text-text-secondary">Timeline of your visits and important milestones</p>
@@ -68,28 +69,71 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
       <div className="relative">
         {timelineItems.length === 0 ? (
-          <div className="text-center py-10 text-text-secondary">
-            No journey items found.
-          </div>
+          <div className="text-center py-10 text-text-secondary">No journey items found.</div>
         ) : (
-          timelineItems.map((item, index) => {
-            const isLast = index === timelineItems.length - 1;
+          <>
+            {/* Central vertical timeline line - visible on desktop */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 -translate-x-1/2 hidden lg:block" />
 
-            if (item.type === "visit") {
-              return (
-                <VisitCard
-                  key={item.data.id}
-                  visit={item.data}
-                  isLast={isLast}
-                  onClick={() => onVisitClick?.(item.data)}
-                />
-              );
-            } else {
-              return (
-                <MilestoneMarker key={item.data.id} milestone={item.data} isLast={isLast} />
-              );
-            }
-          })
+            {/* Timeline items with alternating layout */}
+            <div className="relative space-y-6 lg:space-y-12">
+              {timelineItems.map((item, index) => {
+                const isLast = index === timelineItems.length - 1;
+                const isEven = index % 2 === 0;
+                const isLeft = isEven;
+
+                if (item.type === "visit") {
+                  return (
+                    <div
+                      key={item.data.id}
+                      className={cn(
+                        "relative flex items-start",
+                        isLeft
+                          ? "lg:justify-start lg:pr-[calc(50%+1rem)]"
+                          : "lg:justify-end lg:pl-[calc(50%+1rem)]"
+                      )}
+                    >
+                      {/* Central timeline dot marker - visible on desktop */}
+                      <div className="absolute left-6 lg:left-1/2 top-4 lg:top-1/2 -translate-x-1/2 lg:-translate-y-1/2 z-20 hidden lg:flex items-center justify-center">
+                        <div className="w-4 h-4 rounded-full bg-primary border-2 border-white shadow-lg" />
+                      </div>
+
+                      {/* Card wrapper - maintains card's internal structure */}
+                      <div className="w-full">
+                        <VisitCard
+                          visit={item.data}
+                          isLast={isLast}
+                          onClick={() => onVisitClick?.(item.data)}
+                        />
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div
+                      key={item.data.id}
+                      className={cn(
+                        "relative flex items-start",
+                        isLeft
+                          ? "lg:justify-start lg:pr-[calc(50%+1rem)]"
+                          : "lg:justify-end lg:pl-[calc(50%+1rem)]"
+                      )}
+                    >
+                      {/* Central timeline dot marker - visible on desktop */}
+                      <div className="absolute left-6 lg:left-1/2 top-4 lg:top-1/2 -translate-x-1/2 lg:-translate-y-1/2 z-20 hidden lg:flex items-center justify-center">
+                        <div className="w-4 h-4 rounded-full bg-primary border-2 border-white shadow-lg" />
+                      </div>
+
+                      {/* Card wrapper - maintains card's internal structure */}
+                      <div className="w-full">
+                        <MilestoneMarker milestone={item.data} isLast={isLast} />
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </>
         )}
       </div>
     </div>

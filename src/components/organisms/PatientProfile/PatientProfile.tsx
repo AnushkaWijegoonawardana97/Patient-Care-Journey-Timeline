@@ -30,7 +30,7 @@ export const PatientProfile: React.FC<PatientProfileProps> = ({
         <div className="flex flex-col items-center flex-shrink-0">
           {/* Profile Picture */}
           <Avatar
-            src={avatarUrl}
+            src={avatarUrl || "/patient-avatar.jpg"}
             alt={patientName}
             fallback={patientName}
             size="lg"

@@ -25,7 +25,7 @@ export const AddOnServiceCard: React.FC<AddOnServiceCardProps> = ({ service, cla
       {/* Image - smaller on mobile, full width on desktop */}
       <div className="w-20 h-20 flex-shrink-0 md:w-full md:h-auto md:aspect-square md:mb-4 bg-gray-200 rounded-lg overflow-hidden">
         <img
-          src="/login-page-image.jpg"
+          src={service.imageUrl || "/login-page-image.jpg"}
           alt={service.name}
           className="w-full h-full object-cover"
         />

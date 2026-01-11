@@ -1,27 +1,47 @@
 import * as React from "react";
-import { Badge } from "@/components/atoms/Badge/Badge";
+import type { VisitStatus } from "@/types/journey";
+import { getStatusIcon, formatStatusLabel, getStatusBadgeStyles } from "@/utils/visit.utils";
 import { cn } from "@/lib/utils";
 
 export interface StatusBadgeProps {
-  phase: "First Trimester" | "Second Trimester" | "Third Trimester" | "Postpartum";
+  status: VisitStatus;
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
-const phaseColors = {
-  "First Trimester": "bg-secondary-light text-secondary-emphasis",
-  "Second Trimester": "bg-primary-light text-primary",
-  "Third Trimester": "bg-tertiary-info text-primary-dark",
-  Postpartum: "bg-secondary-accent text-secondary-emphasis",
-};
+export const StatusBadge: React.FC<StatusBadgeProps> = ({
+  status,
+  size = "md",
+  className,
+}) => {
+  const IconComponent = React.useMemo(() => getStatusIcon(status), [status]);
+  const label = React.useMemo(() => formatStatusLabel(status), [status]);
+  const badgeStyles = React.useMemo(() => getStatusBadgeStyles(status), [status]);
 
-export const StatusBadge: React.FC<StatusBadgeProps> = ({ phase, className }) => {
+  const sizeClasses = {
+    sm: "px-2 py-0.5 text-xs gap-1",
+    md: "px-3 py-1.5 text-xs gap-1.5",
+    lg: "px-4 py-2 text-sm gap-2",
+  };
+
+  const iconSizeClasses = {
+    sm: "w-3 h-3",
+    md: "w-4 h-4",
+    lg: "w-5 h-5",
+  };
+
   return (
-    <Badge
-      variant="outline"
-      className={cn(phaseColors[phase], "border-0", className)}
+    <span
+      className={cn(
+        "inline-flex items-center rounded-md font-semibold border",
+        sizeClasses[size],
+        badgeStyles,
+        className
+      )}
     >
-      {phase}
-    </Badge>
+      <IconComponent className={iconSizeClasses[size]} />
+      {label}
+    </span>
   );
 };
 

@@ -38,7 +38,7 @@ export const ProfileSummarySection: React.FC<ProfileSummarySectionProps> = ({
 
       <div className="flex flex-col items-center mb-6 pb-6 border-b border-gray-200">
         <Avatar
-          src={avatarUrl}
+          src={avatarUrl || "/patient-avatar.jpg"}
           alt={patientName}
           fallback={patientName}
           size="lg"

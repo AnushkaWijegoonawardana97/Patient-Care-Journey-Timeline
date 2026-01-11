@@ -94,7 +94,12 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex items-center gap-3 px-2 py-1 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <Avatar size="sm" fallback={patientName.charAt(0)} />
+              <Avatar
+                src="/patient-avatar.jpg"
+                size="sm"
+                alt={patientName}
+                fallback={patientName.charAt(0)}
+              />
               <div className="hidden sm:block text-left">
                 <p className="text-sm font-medium text-text-primary">{patientName}</p>
                 <p className="text-xs text-text-secondary">Patient ID</p>

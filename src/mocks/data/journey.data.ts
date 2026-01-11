@@ -21,7 +21,7 @@ export const mockPatientJourney: PatientJourneyResponseDTO = {
       doula: {
         id: "d_001",
         name: "Angela Rivera",
-        photo: "/doulas/angela.jpg",
+        photo: "/doula-avatar.JPG",
         languages: ["English", "Spanish"],
       },
       notes: "Discussed birth preferences and created initial care plan.",
@@ -37,7 +37,7 @@ export const mockPatientJourney: PatientJourneyResponseDTO = {
       doula: {
         id: "d_001",
         name: "Angela Rivera",
-        photo: "/doulas/angela.jpg",
+        photo: "/doula-avatar.JPG",
         languages: ["English", "Spanish"],
       },
       notes: "Reviewed nutrition and exercise. Patient feeling well.",
@@ -53,7 +53,7 @@ export const mockPatientJourney: PatientJourneyResponseDTO = {
       doula: {
         id: "d_001",
         name: "Angela Rivera",
-        photo: "/doulas/angela.jpg",
+        photo: "/doula-avatar.JPG",
         languages: ["English", "Spanish"],
       },
       durationMinutes: 45,
@@ -68,7 +68,7 @@ export const mockPatientJourney: PatientJourneyResponseDTO = {
       doula: {
         id: "d_001",
         name: "Angela Rivera",
-        photo: "/doulas/angela.jpg",
+        photo: "/doula-avatar.JPG",
         languages: ["English", "Spanish"],
       },
     },
