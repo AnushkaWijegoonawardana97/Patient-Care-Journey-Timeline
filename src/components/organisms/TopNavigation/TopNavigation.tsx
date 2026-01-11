@@ -41,9 +41,8 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16 container mx-auto">
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <img src="/logo.webp" alt="Raya Health" className="h-8 w-auto" />
-          <span className="text-xl font-bold text-secondary-success">Raya Health</span>
+        <div className="flex items-center">
+          <img src="/logo-dark.png" alt="Raya Health" className="h-10 w-auto" />
         </div>
 
         {/* Center Navigation */}

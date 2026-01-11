@@ -35,10 +35,9 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       {/* Left side - Form */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-12 py-8 lg:py-0 overflow-y-auto relative z-10 lg:z-auto">
         <div className="w-full max-w-md space-y-6 lg:space-y-8 bg-white rounded-lg p-6 lg:p-0 shadow-lg lg:shadow-none">
-          {/* Logo and Branding */}
-          <div className="flex items-center space-x-3">
-            <img src="/logo.webp" alt="Raya Health Logo" className="h-10 w-auto" />
-            <span className="text-2xl font-bold text-secondary-success">Raya Health</span>
+          {/* Logo */}
+          <div className="flex items-center">
+            <img src="/logo-dark.png" alt="Raya Health" className="h-20 w-auto" />
           </div>
 
           {/* Title and Description */}

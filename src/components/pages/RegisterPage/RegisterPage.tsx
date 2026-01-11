@@ -4,24 +4,47 @@ import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import { Checkbox } from "@/components/atoms/Checkbox/Checkbox";
-import { Chrome } from "lucide-react";
+import { Chrome, Loader2 } from "lucide-react";
 import { AuthLayout } from "@/components/templates/AuthLayout/AuthLayout";
+import { useAuth } from "@/hooks/useAuth";
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
+  const { registerAsync, isRegisterLoading } = useAuth();
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [termsAccepted, setTermsAccepted] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    navigate("/dashboard");
+    setErrorMessage(null);
+
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+
+    try {
+      await registerAsync({ name, email, password });
+      navigate("/dashboard");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Registration failed. Please try again.";
+      setErrorMessage(message);
+    }
   };
 
   const formContent = (
     <form className="space-y-6" onSubmit={handleSubmit}>
+      {/* Error Message */}
+      {errorMessage && (
+        <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+          {errorMessage}
+        </div>
+      )}
+
       {/* Name Field */}
       <div className="space-y-2">
         <Label htmlFor="name">Full Name</Label>
@@ -32,6 +55,7 @@ export const RegisterPage: React.FC = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          disabled={isRegisterLoading}
         />
       </div>
 
@@ -45,6 +69,7 @@ export const RegisterPage: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={isRegisterLoading}
         />
       </div>
 
@@ -59,6 +84,7 @@ export const RegisterPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={8}
+          disabled={isRegisterLoading}
         />
       </div>
 
@@ -73,6 +99,7 @@ export const RegisterPage: React.FC = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
           minLength={8}
+          disabled={isRegisterLoading}
         />
       </div>
 
@@ -83,6 +110,7 @@ export const RegisterPage: React.FC = () => {
           checked={termsAccepted}
           onCheckedChange={(checked) => setTermsAccepted(checked === true)}
           className="mt-1"
+          disabled={isRegisterLoading}
         />
         <Label htmlFor="terms" className="text-sm font-normal cursor-pointer">
           I agree to the{" "}
@@ -97,8 +125,15 @@ export const RegisterPage: React.FC = () => {
       </div>
 
       {/* Create Account Button */}
-      <Button type="submit" className="w-full" disabled={!termsAccepted}>
-        Create Account
+      <Button type="submit" className="w-full" disabled={!termsAccepted || isRegisterLoading}>
+        {isRegisterLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Creating account...
+          </>
+        ) : (
+          "Create Account"
+        )}
       </Button>
 
       {/* Google Sign In */}
@@ -106,6 +141,7 @@ export const RegisterPage: React.FC = () => {
         type="button"
         variant="secondary"
         className="w-full flex items-center justify-center space-x-2"
+        disabled={isRegisterLoading}
       >
         <Chrome className="h-5 w-5" />
         <span>Sign up with Google</span>

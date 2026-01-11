@@ -1,0 +1,118 @@
+import type { PatientJourneyResponseDTO } from "@/dto/journey.dto";
+
+/** Mock patient journey data */
+export const mockPatientJourney: PatientJourneyResponseDTO = {
+  patient: {
+    id: "pt_001",
+    name: "Maria Santos",
+    due_date: "2025-03-15",
+    insurance_type: "medi-cal",
+    care_pathway: "labor_delivery",
+    current_week: 28,
+  },
+  visits: [
+    {
+      id: "v_001",
+      type: "initial",
+      visitNumber: 1,
+      totalOfType: 1,
+      status: "completed",
+      completedDate: "2024-10-01T10:00:00Z",
+      doula: {
+        id: "d_001",
+        name: "Angela Rivera",
+        photo: "/doulas/angela.jpg",
+        languages: ["English", "Spanish"],
+      },
+      notes: "Discussed birth preferences and created initial care plan.",
+      durationMinutes: 60,
+    },
+    {
+      id: "v_002",
+      type: "prenatal_postpartum",
+      visitNumber: 1,
+      totalOfType: 8,
+      status: "completed",
+      completedDate: "2024-10-15T14:00:00Z",
+      doula: {
+        id: "d_001",
+        name: "Angela Rivera",
+        photo: "/doulas/angela.jpg",
+        languages: ["English", "Spanish"],
+      },
+      notes: "Reviewed nutrition and exercise. Patient feeling well.",
+      durationMinutes: 45,
+    },
+    {
+      id: "v_003",
+      type: "prenatal_postpartum",
+      visitNumber: 2,
+      totalOfType: 8,
+      status: "completed",
+      completedDate: "2024-11-01T11:00:00Z",
+      doula: {
+        id: "d_001",
+        name: "Angela Rivera",
+        photo: "/doulas/angela.jpg",
+        languages: ["English", "Spanish"],
+      },
+      durationMinutes: 45,
+    },
+    {
+      id: "v_004",
+      type: "prenatal_postpartum",
+      visitNumber: 3,
+      totalOfType: 8,
+      status: "scheduled",
+      scheduledDate: "2025-01-10T10:00:00Z",
+      doula: {
+        id: "d_001",
+        name: "Angela Rivera",
+        photo: "/doulas/angela.jpg",
+        languages: ["English", "Spanish"],
+      },
+    },
+    {
+      id: "v_005",
+      type: "prenatal_postpartum",
+      visitNumber: 4,
+      totalOfType: 8,
+      status: "available",
+    },
+    {
+      id: "v_006",
+      type: "labor_delivery",
+      visitNumber: 1,
+      totalOfType: 1,
+      status: "available",
+    },
+  ],
+  milestones: [
+    {
+      id: "m_001",
+      type: "trimester",
+      title: "Second Trimester",
+      date: "2024-09-15",
+      description: "Weeks 14-27",
+    },
+    {
+      id: "m_002",
+      type: "trimester",
+      title: "Third Trimester",
+      date: "2024-12-15",
+      description: "Weeks 28-40",
+    },
+    {
+      id: "m_003",
+      type: "due_date",
+      title: "Due Date",
+      date: "2025-03-15",
+    },
+    {
+      id: "m_004",
+      type: "postpartum_week",
+      title: "6 Weeks Postpartum",
+      date: "2025-04-26",
+    },
+  ],
+};

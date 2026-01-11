@@ -14,6 +14,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"GeneralSans Variable"', "sans-serif"],
+      },
       colors: {
         // Primary colors (based on #21404b)
         primary: {

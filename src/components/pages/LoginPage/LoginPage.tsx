@@ -4,22 +4,45 @@ import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
 import { Checkbox } from "@/components/atoms/Checkbox/Checkbox";
-import { Chrome } from "lucide-react";
+import { Chrome, Loader2 } from "lucide-react";
 import { AuthLayout } from "@/components/templates/AuthLayout/AuthLayout";
+import { useAuth } from "@/hooks/useAuth";
+import type { ApiError } from "@/types/api";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const { loginAsync, isLoginLoading } = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [rememberMe, setRememberMe] = React.useState(true);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    navigate("/dashboard");
+    setErrorMessage(null);
+
+    try {
+      await loginAsync({ email, password, rememberMe });
+      navigate("/dashboard");
+    } catch (error) {
+      // Handle ApiError from the API interceptor
+      const apiError = error as ApiError;
+      const message =
+        apiError?.message ||
+        (error instanceof Error ? error.message : "Login failed. Please try again.");
+      setErrorMessage(message);
+    }
   };
 
   const formContent = (
     <form className="space-y-6" onSubmit={handleSubmit}>
+      {/* Error Message */}
+      {errorMessage && (
+        <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+          {errorMessage}
+        </div>
+      )}
+
       {/* Email Field */}
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
@@ -30,6 +53,7 @@ export const LoginPage: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={isLoginLoading}
         />
       </div>
 
@@ -44,6 +68,7 @@ export const LoginPage: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={8}
+          disabled={isLoginLoading}
         />
       </div>
 
@@ -54,6 +79,7 @@ export const LoginPage: React.FC = () => {
             id="remember"
             checked={rememberMe}
             onCheckedChange={(checked) => setRememberMe(checked === true)}
+            disabled={isLoginLoading}
           />
           <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">
             Remember me
@@ -65,8 +91,15 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* Login Button */}
-      <Button type="submit" className="w-full">
-        Log In
+      <Button type="submit" className="w-full" disabled={isLoginLoading}>
+        {isLoginLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Logging in...
+          </>
+        ) : (
+          "Log In"
+        )}
       </Button>
 
       {/* Google Sign In */}
@@ -74,6 +107,7 @@ export const LoginPage: React.FC = () => {
         type="button"
         variant="secondary"
         className="w-full flex items-center justify-center space-x-2"
+        disabled={isLoginLoading}
       >
         <Chrome className="h-5 w-5" />
         <span>Sign in with Google</span>
