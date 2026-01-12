@@ -75,6 +75,7 @@ describe('authService', () => {
           email: 'test@example.com',
         },
         token: 'mock-token',
+        expiresAt: '2025-12-31T23:59:59Z',
       };
 
       vi.mocked(apiClient.default.post).mockResolvedValue(mockResponse);
@@ -124,6 +125,7 @@ describe('authService', () => {
           email: 'test@example.com',
         },
         token: 'mock-token',
+        expiresAt: '2025-12-31T23:59:59Z',
       };
 
       vi.mocked(apiClient.default.post).mockResolvedValue(mockResponse);

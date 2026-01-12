@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { formatDate, formatDateShort, formatDateLong, formatDateWithDay, formatTime, formatDateTime } from './dateUtils';
 import * as i18n from '@/lib/i18n';
 import { format } from 'date-fns';
-import { enUS, es } from 'date-fns/locale';
 
 // Mock i18n
 vi.mock('@/lib/i18n', () => ({
@@ -16,7 +15,7 @@ vi.mock('date-fns', async () => {
   const actual = await vi.importActual('date-fns');
   return {
     ...actual,
-    format: vi.fn((date: Date, formatString: string, options?: any) => {
+    format: vi.fn((_date: Date, formatString: string, _options?: any) => {
       // Simple mock that returns formatted string
       if (formatString === 'MMM d, yyyy') return 'Jan 15, 2024';
       if (formatString === 'MMMM d, yyyy') return 'January 15, 2024';
@@ -41,6 +40,7 @@ describe('dateUtils', () => {
     it('should format date with given format string', () => {
       const result = formatDate(testDate, 'MMM d, yyyy');
       expect(result).toBe('Jan 15, 2024');
+      expect(format).toHaveBeenCalled();
     });
 
     it('should handle string dates', () => {

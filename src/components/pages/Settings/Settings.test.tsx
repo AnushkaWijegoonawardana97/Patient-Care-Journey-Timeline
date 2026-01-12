@@ -146,7 +146,7 @@ describe('Settings', () => {
     
     // LanguageToggle component should be rendered (check for dropdown or language selection)
     // The component might render a button or select element
-    const languageElements = screen.queryAllByText(/language/i);
+    screen.queryAllByText(/language/i);
     // If no "Language" text, check for the component's presence via its structure
     expect(screen.getByText('Preferences')).toBeInTheDocument();
   });

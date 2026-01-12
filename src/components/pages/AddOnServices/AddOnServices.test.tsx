@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { Heart } from 'lucide-react';
 import { AddOnServices } from './AddOnServices';
 import * as useAddOnServices from '@/hooks/useAddOnServices';
 import * as useAuth from '@/hooks/useAuth';
@@ -60,8 +61,8 @@ describe('AddOnServices', () => {
         id: 's_001',
         name: 'Service 1',
         description: 'Description 1',
-        status: 'available' as const,
-        icon: () => <svg />,
+        status: 'optional_addon' as const,
+        icon: Heart,
       },
     ];
 

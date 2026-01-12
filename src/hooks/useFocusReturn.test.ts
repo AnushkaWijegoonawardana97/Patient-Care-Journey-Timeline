@@ -30,7 +30,7 @@ describe('useFocusReturn', () => {
   it('should store reference to trigger element', () => {
     triggerButton.focus();
     
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const returnElementRef = useRef<HTMLButtonElement>(returnButton);
       return useFocusReturn(true, returnElementRef);
     });

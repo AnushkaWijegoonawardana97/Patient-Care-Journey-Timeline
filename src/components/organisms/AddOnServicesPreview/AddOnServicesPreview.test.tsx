@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Heart } from 'lucide-react';
 import { AddOnServicesPreview } from './AddOnServicesPreview';
 import type { AddOnService } from '@/types/addOnServices';
 
@@ -21,29 +22,29 @@ describe('AddOnServicesPreview', () => {
       id: 's_001',
       name: 'Service 1',
       description: 'Description 1',
-      status: 'available',
-      icon: () => <svg />,
+      status: 'optional_addon',
+      icon: Heart,
     },
     {
       id: 's_002',
       name: 'Service 2',
       description: 'Description 2',
-      status: 'available',
-      icon: () => <svg />,
+      status: 'optional_addon',
+      icon: Heart,
     },
     {
       id: 's_003',
       name: 'Service 3',
       description: 'Description 3',
-      status: 'available',
-      icon: () => <svg />,
+      status: 'optional_addon',
+      icon: Heart,
     },
     {
       id: 's_004',
       name: 'Service 4',
       description: 'Description 4',
-      status: 'available',
-      icon: () => <svg />,
+      status: 'optional_addon',
+      icon: Heart,
     },
   ];
 

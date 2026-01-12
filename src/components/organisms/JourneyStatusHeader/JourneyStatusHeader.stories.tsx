@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { JourneyStatusHeader } from './JourneyStatusHeader';
-import type { Patient, Visit } from '@/types/journey';
+import type { Visit } from '@/types/journey';
 
 const meta: Meta<typeof JourneyStatusHeader> = {
   title: 'Organisms/JourneyStatusHeader',

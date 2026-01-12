@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { Heart } from 'lucide-react';
 import { AddOnServicesOverview } from './AddOnServicesOverview';
 import type { AddOnService } from '@/types/addOnServices';
 
@@ -16,17 +17,17 @@ describe('AddOnServicesOverview', () => {
       id: 's_001',
       name: 'Lactation Support',
       description: 'Professional lactation consultation',
-      image: '/lactation.jpg',
-      status: 'available',
-      icon: () => <svg />,
+      imageUrl: '/lactation.jpg',
+      status: 'optional_addon',
+      icon: Heart,
     },
     {
       id: 's_002',
       name: 'Mental Health Support',
       description: 'Counseling services',
-      image: '/mental-health.jpg',
+      imageUrl: '/mental-health.jpg',
       status: 'coming_soon',
-      icon: () => <svg />,
+      icon: Heart,
     },
   ];
 

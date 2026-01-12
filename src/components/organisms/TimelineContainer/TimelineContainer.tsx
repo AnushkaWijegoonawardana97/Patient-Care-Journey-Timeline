@@ -1,5 +1,6 @@
 import * as React from "react";
 import { compareAsc, parseISO } from "date-fns";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Patient, Visit, Milestone } from "@/types/journey";
 import { VisitCard } from "@/components/molecules/VisitCard/VisitCard";
 import { MilestoneMarker } from "@/components/molecules/MilestoneMarker/MilestoneMarker";
@@ -22,6 +23,40 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   milestones,
   onVisitClick,
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  const containerVariants = React.useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: shouldReduceMotion ? 0 : 0.1,
+          delayChildren: shouldReduceMotion ? 0 : 0.1,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
+
+  const itemVariants = React.useMemo(
+    () => ({
+      hidden: {
+        opacity: shouldReduceMotion ? 1 : 0,
+        y: shouldReduceMotion ? 0 : 20,
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.4,
+          ease: "easeOut" as const,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
+
   const timelineItems = React.useMemo(() => {
     const relevantVisits = visits.filter((v) => {
       if (patient.insuranceType === "standard" && v.type === "additional_postpartum") {
@@ -76,7 +111,13 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600 -translate-x-1/2 hidden lg:block" aria-hidden="true" />
 
             {/* Timeline items with alternating layout */}
-            <ol className="relative space-y-6 lg:space-y-12" role="list">
+            <motion.ol
+              className="relative space-y-6 lg:space-y-12"
+              role="list"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {timelineItems.map((item, index) => {
                 const isLast = index === timelineItems.length - 1;
                 const isEven = index % 2 === 0;
@@ -84,8 +125,9 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
                 if (item.type === "visit") {
                   return (
-                    <li
+                    <motion.li
                       key={item.data.id}
+                      variants={itemVariants}
                       className={cn(
                         "relative flex items-start",
                         isLeft
@@ -106,12 +148,13 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
                           onClick={() => onVisitClick?.(item.data)}
                         />
                       </div>
-                    </li>
+                    </motion.li>
                   );
                 } else {
                   return (
-                    <li
+                    <motion.li
                       key={item.data.id}
+                      variants={itemVariants}
                       className={cn(
                         "relative flex items-start",
                         isLeft
@@ -128,11 +171,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
                       <div className="w-full">
                         <MilestoneMarker milestone={item.data} isLast={isLast} />
                       </div>
-                    </li>
+                    </motion.li>
                   );
                 }
               })}
-            </ol>
+            </motion.ol>
           </>
         )}
       </div>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Heart } from 'lucide-react';
 import { useAddOnServices } from './useAddOnServices';
 import * as addOnServicesService from '@/services/addOnServices.service';
 import type { AddOnService } from '@/types/addOnServices';
@@ -40,15 +41,17 @@ const mockServices: AddOnService[] = [
     id: 's_001',
     name: 'Lactation Support',
     description: 'Professional lactation consultation',
-    image: '/lactation.jpg',
-    status: 'available',
+    imageUrl: '/lactation.jpg',
+    status: 'optional_addon',
+    icon: Heart,
   },
   {
     id: 's_002',
     name: 'Mental Health Support',
     description: 'Counseling services',
-    image: '/mental-health.jpg',
+    imageUrl: '/mental-health.jpg',
     status: 'coming_soon',
+    icon: Heart,
   },
 ];
 

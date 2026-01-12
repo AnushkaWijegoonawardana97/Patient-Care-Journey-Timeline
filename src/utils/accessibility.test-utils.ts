@@ -1,6 +1,7 @@
 import { render, type RenderOptions } from '@testing-library/react';
-import { axe } from 'axe-core';
 import type { ReactElement } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const axe = require('axe-core') as typeof import('axe-core');
 
 /**
  * Custom render function that includes accessibility testing utilities
@@ -17,7 +18,7 @@ export const renderWithA11y = (
  * @param container - The container element to test
  * @returns Promise that resolves with accessibility results
  */
-export const testA11y = async (container: HTMLElement): Promise<axe.AxeResults> => {
+export const testA11y = async (container: HTMLElement) => {
   const results = await axe.run(container, {
     rules: {
       // Only run WCAG 2.1 AA rules
@@ -78,7 +79,7 @@ export const isVisibleToScreenReader = (element: HTMLElement): boolean => {
  * Get the computed color contrast ratio between two colors
  * Returns a ratio (e.g., 4.5 for WCAG AA compliance)
  */
-export const getContrastRatio = (foreground: string, background: string): number => {
+export const getContrastRatio = (_foreground: string, _background: string): number => {
   // This is a simplified version - in production, use a proper contrast calculation library
   // For now, this is a placeholder that would need proper RGB to relative luminance conversion
   // Using a library like 'color-contrast' or 'wcag-contrast' would be better

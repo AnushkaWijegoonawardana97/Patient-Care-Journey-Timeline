@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useRef } from 'react';
 import { useFocusTrap } from './useFocusTrap';
 
 describe('useFocusTrap', () => {
@@ -37,7 +36,7 @@ describe('useFocusTrap', () => {
 
   it('should trap focus within container when active', () => {
     const containerRef = { current: container };
-    const { rerender } = renderHook(
+    renderHook(
       ({ isActive }) => useFocusTrap(isActive, containerRef),
       {
         initialProps: { isActive: true },
@@ -50,7 +49,7 @@ describe('useFocusTrap', () => {
 
   it('should allow focus to escape when inactive', () => {
     const containerRef = { current: container };
-    const { rerender } = renderHook(
+    renderHook(
       ({ isActive }) => useFocusTrap(isActive, containerRef),
       {
         initialProps: { isActive: false },

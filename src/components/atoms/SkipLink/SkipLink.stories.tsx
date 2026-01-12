@@ -40,6 +40,10 @@ export const SkipToNavigation: Story = {
 };
 
 export const MultipleSkipLinks: Story = {
+  args: {
+    href: '#main',
+    children: 'Skip to main content',
+  },
   render: () => (
     <div>
       <SkipLink href="#main">Skip to main content</SkipLink>

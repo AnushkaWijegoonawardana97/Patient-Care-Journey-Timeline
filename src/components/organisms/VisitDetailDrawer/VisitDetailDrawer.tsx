@@ -1,5 +1,6 @@
 import * as React from "react";
 import { X, Calendar, Clock, User, FileText, CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { Visit } from "@/types/journey";
 import { format } from "date-fns";
 import { Avatar } from "@/components/atoms/Avatar/Avatar";
@@ -19,6 +20,7 @@ export interface VisitDetailDrawerProps {
 export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isOpen, onClose }) => {
   const drawerRef = React.useRef<HTMLDivElement>(null);
   const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const statusConfig = React.useMemo(() => {
     if (!visit) return null;
@@ -70,26 +72,71 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
     };
   }, [isOpen]);
 
-  if (!visit || !isOpen) return null;
+  const backdropVariants = React.useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 },
+      exit: { opacity: 0 },
+    }),
+    []
+  );
+
+  const drawerVariants = React.useMemo(
+    () => ({
+      hidden: {
+        x: shouldReduceMotion ? 0 : "100%",
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.3,
+          ease: "easeInOut" as const,
+        },
+      },
+      visible: {
+        x: 0,
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.3,
+          ease: "easeInOut" as const,
+        },
+      },
+      exit: {
+        x: shouldReduceMotion ? 0 : "100%",
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.3,
+          ease: "easeInOut" as const,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
+
+  if (!visit) return null;
 
   return (
-    <>
-      <div
-        className="fixed inset-0 bg-black/50 z-40 lg:bg-black/30 backdrop-blur-sm transition-opacity duration-300"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <div
-        ref={drawerRef}
-        className={cn(
-          "fixed inset-y-0 right-0 w-full max-w-2xl bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out",
-          "lg:translate-x-0",
-          isOpen ? "translate-x-0" : "translate-x-full"
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="visit-detail-title"
-      >
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            className="fixed inset-0 bg-black/50 z-40 lg:bg-black/30 backdrop-blur-sm"
+            variants={backdropVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={onClose}
+            aria-hidden="true"
+          />
+          <motion.div
+            ref={drawerRef}
+            className={cn(
+              "fixed inset-y-0 right-0 w-full max-w-2xl bg-white dark:bg-gray-900 shadow-2xl z-50",
+              "lg:translate-x-0"
+            )}
+            variants={drawerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="visit-detail-title"
+          >
         <div className="flex flex-col h-full">
           <div className="flex-1 overflow-y-auto">
             {/* Visit Header Section with Background Image */}
@@ -284,8 +331,10 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
+      )}
+    </AnimatePresence>
   );
 };
 

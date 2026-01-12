@@ -1,18 +1,19 @@
 import { screen } from '@testing-library/react';
-import type { Matcher } from '@testing-library/react';
+import type { ByRoleMatcher } from '@testing-library/react';
+import { expect } from 'vitest';
 
 /**
  * Helper to find elements by accessible name
  */
-export const findByAccessibleName = async (name: string): Promise<HTMLElement> => {
-  return screen.findByRole(undefined, { name });
+export const findByAccessibleName = async (name: string | RegExp): Promise<HTMLElement> => {
+  return screen.findByRole('generic', { name });
 };
 
 /**
  * Helper to get all elements with a specific ARIA role
  */
-export const getAllByRole = (role: string): HTMLElement[] => {
-  return screen.getAllByRole(role as Matcher);
+export const getAllByRole = (role: ByRoleMatcher): HTMLElement[] => {
+  return screen.getAllByRole(role);
 };
 
 /**
@@ -46,7 +47,7 @@ export const testKeyboardNavigation = async (
  * Helper to test focus trap
  */
 export const testFocusTrap = (
-  container: HTMLElement,
+  _container: HTMLElement,
   focusableElements: HTMLElement[]
 ): void => {
   // First element should receive focus

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Calendar, CheckCircle2, ArrowRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Visit } from "@/types/journey";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,8 @@ export interface VisitCardProps {
 }
 
 export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onClick }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   const config = React.useMemo(() => VISIT_STATUS_CONFIG[visit.status], [visit.status]);
   const visitTitle = React.useMemo(() => getVisitTitle(visit), [visit]);
   const statusLabel = React.useMemo(() => formatStatusLabel(visit.status), [visit.status]);
@@ -22,6 +25,25 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
   );
 
   const IconComponent = config.iconComponent;
+
+  const cardVariants = React.useMemo(
+    () => ({
+      hidden: {
+        opacity: shouldReduceMotion ? 1 : 0,
+        y: shouldReduceMotion ? 0 : 20,
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.4,
+          ease: "easeOut" as const,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
+
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -63,15 +85,19 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
         )}
       </div>
 
-      <div
+      <motion.div
         className={cn(
-          "rounded-xl border shadow-sm transition-all duration-300 overflow-hidden",
-          "hover:shadow-lg hover:scale-[1.01] cursor-pointer border-l-4",
+          "rounded-xl border shadow-sm overflow-hidden cursor-pointer border-l-4",
           "group-hover:border-opacity-80 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
           "dark:bg-gray-800/50 dark:border-gray-700",
           config.border,
           config.bg
         )}
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        whileHover={shouldReduceMotion ? undefined : { scale: 1.01, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)" }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
         onClick={onClick}
         onKeyDown={handleKeyDown}
         role="button"
@@ -135,7 +161,7 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
             <ArrowRight className="w-5 h-5 text-text-secondary dark:text-gray-400" />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

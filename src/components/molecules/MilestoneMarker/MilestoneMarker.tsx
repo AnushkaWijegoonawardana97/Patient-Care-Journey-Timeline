@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Baby, Calendar, Heart, Sparkles, type LucideIcon } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Milestone, MilestoneType } from "@/types/journey";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -55,8 +56,42 @@ const milestoneConfig: Record<
 };
 
 export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isLast = false }) => {
+  const shouldReduceMotion = useReducedMotion();
   const config = milestoneConfig[milestone.type] || milestoneConfig.custom;
   const Icon = config.icon;
+
+  const markerVariants = React.useMemo(
+    () => ({
+      hidden: {
+        opacity: shouldReduceMotion ? 1 : 0,
+        y: shouldReduceMotion ? 0 : 20,
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: shouldReduceMotion ? 0 : 0.4,
+          ease: "easeOut" as const,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
+
+  const pulseVariants = React.useMemo(
+    () => ({
+      animate: {
+        scale: shouldReduceMotion ? 1 : [1, 1.1, 1],
+        opacity: shouldReduceMotion ? 0.75 : [0.75, 1, 0.75],
+        transition: {
+          duration: shouldReduceMotion ? 0 : 2,
+          repeat: Infinity,
+          ease: "easeInOut" as const,
+        },
+      },
+    }),
+    [shouldReduceMotion]
+  );
 
   return (
     <article className="relative pl-12 pb-8" aria-labelledby={`milestone-${milestone.id}-title`}>
@@ -66,22 +101,38 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
       )}
 
       {/* Celebratory icon marker */}
-      <div className="absolute left-6 top-2 -translate-x-1/2 z-10" aria-hidden="true">
+      <motion.div
+        className="absolute left-6 top-2 -translate-x-1/2 z-10"
+        aria-hidden="true"
+        variants={markerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className={cn("w-12 h-12 rounded-full flex items-center justify-center shadow-lg", config.iconBg)}>
           <Icon className={cn("w-6 h-6", config.iconColor)} aria-hidden="true" />
         </div>
         {/* Decorative sparkle effect */}
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 dark:bg-yellow-400 rounded-full opacity-75 dark:opacity-90 animate-pulse" aria-hidden="true" />
-      </div>
+        <motion.div
+          className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 dark:bg-yellow-400 rounded-full opacity-75 dark:opacity-90"
+          aria-hidden="true"
+          variants={pulseVariants}
+          animate="animate"
+        />
+      </motion.div>
 
       {/* Milestone card */}
-      <div
+      <motion.div
         className={cn(
-          "ml-4 rounded-xl border-2 shadow-md overflow-hidden transition-all hover:shadow-lg",
+          "ml-4 rounded-xl border-2 shadow-md overflow-hidden",
           `bg-gradient-to-br ${config.gradient}`,
           "border-white/50 dark:border-gray-700/50",
           "dark:from-gray-800/80 dark:via-gray-800/60 dark:to-gray-800/80"
         )}
+        variants={markerVariants}
+        initial="hidden"
+        animate="visible"
+        whileHover={shouldReduceMotion ? undefined : { boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)" }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
       >
         <div className="p-4">
           {/* Badge and date row */}
@@ -116,7 +167,7 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
             </span>
           </div>
         </div>
-      </div>
+      </motion.div>
     </article>
   );
 };

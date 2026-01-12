@@ -10,11 +10,13 @@ import type { PatientJourney } from '@/types/journey';
 vi.mock('@/services/journey.service', () => ({
   journeyService: {
     getPatientJourney: vi.fn(),
+    getVisitDetails: vi.fn(),
   },
 }));
 
-const mockJourneyService = journeyService.journeyService as {
-  getPatientJourney: ReturnType<typeof vi.fn>;
+const mockJourneyService = {
+  getPatientJourney: vi.mocked(journeyService.journeyService.getPatientJourney),
+  getVisitDetails: vi.mocked(journeyService.journeyService.getVisitDetails),
 };
 
 // Mock queryKeys
@@ -46,6 +48,7 @@ const mockJourney: PatientJourney = {
     dueDate: '2025-03-15',
     insuranceType: 'standard',
     carePathway: 'labor_delivery',
+    currentWeek: 28,
   },
   visits: [],
   milestones: [],

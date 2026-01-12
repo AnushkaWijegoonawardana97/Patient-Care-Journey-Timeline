@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { Heart } from 'lucide-react';
 import { addOnServicesService } from './addOnServices.service';
 import * as apiClient from './api';
 import * as addOnServicesDto from '@/dto/addOnServices.dto';
@@ -29,8 +30,8 @@ describe('addOnServicesService', () => {
             id: 's_001',
             name: 'Lactation Support',
             description: 'Professional lactation consultation',
-            image: '/lactation.jpg',
-            status: 'available',
+            imageUrl: '/lactation.jpg',
+            status: 'optional_addon',
           },
         ],
       };
@@ -39,8 +40,9 @@ describe('addOnServicesService', () => {
           id: 's_001',
           name: 'Lactation Support',
           description: 'Professional lactation consultation',
-          image: '/lactation.jpg',
-          status: 'available',
+          imageUrl: '/lactation.jpg',
+          status: 'optional_addon',
+          icon: Heart,
         },
       ];
 
@@ -60,14 +62,14 @@ describe('addOnServicesService', () => {
             id: 's_001',
             name: 'Lactation Support',
             description: 'Professional lactation consultation',
-            image: '/lactation.jpg',
-            status: 'available',
+            imageUrl: '/lactation.jpg',
+            status: 'optional_addon',
           },
           {
             id: 's_002',
             name: 'Mental Health Support',
             description: 'Counseling services',
-            image: '/mental-health.jpg',
+            imageUrl: '/mental-health.jpg',
             status: 'coming_soon',
           },
         ],
@@ -77,15 +79,17 @@ describe('addOnServicesService', () => {
           id: 's_001',
           name: 'Lactation Support',
           description: 'Professional lactation consultation',
-          image: '/lactation.jpg',
-          status: 'available',
+          imageUrl: '/lactation.jpg',
+          status: 'optional_addon',
+          icon: Heart,
         },
         {
           id: 's_002',
           name: 'Mental Health Support',
           description: 'Counseling services',
-          image: '/mental-health.jpg',
+          imageUrl: '/mental-health.jpg',
           status: 'coming_soon',
+          icon: Heart,
         },
       ];
 
