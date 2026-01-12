@@ -41,7 +41,7 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
   return (
     <div className="relative pl-12 pb-8 group">
       {!isLast && (
-        <div className="absolute left-6 top-12 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 to-transparent -translate-x-1/2" />
+        <div className="absolute left-6 top-12 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 dark:from-gray-600 to-transparent -translate-x-1/2" />
       )}
 
       <div className="absolute left-6 top-2 -translate-x-1/2 z-10">
@@ -51,12 +51,12 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
             config.markerBg
           )}
         >
-          <div className="w-3 h-3 rounded-full bg-white/90" />
+          <div className="w-3 h-3 rounded-full bg-white/90 dark:bg-card" />
         </div>
         {hasActiveStatus && (
           <div
             className={cn(
-              "absolute inset-0 rounded-full blur-sm opacity-30 -z-10",
+              "absolute inset-0 rounded-full blur-sm opacity-30 dark:opacity-40 -z-10",
               config.markerBg
             )}
           />
@@ -68,6 +68,7 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
           "rounded-xl border shadow-sm transition-all duration-300 overflow-hidden",
           "hover:shadow-lg hover:scale-[1.01] cursor-pointer border-l-4",
           "group-hover:border-opacity-80 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
+          "dark:bg-gray-800/50 dark:border-gray-700",
           config.border,
           config.bg
         )}
@@ -92,13 +93,13 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
 
             <div className="flex items-center gap-2 mb-2">
               <IconComponent className={cn("w-5 h-5 flex-shrink-0", config.iconColor)} />
-              <h3 className="font-semibold text-text-primary text-base">{visitTitle}</h3>
+              <h3 className="font-semibold text-text-primary dark:text-white text-base">{visitTitle}</h3>
             </div>
 
-            <div className="text-sm text-text-secondary space-y-1.5">
+            <div className="text-sm text-text-secondary dark:text-gray-300 space-y-1.5">
               {visit.scheduledDate && (
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+                  <Calendar className="w-3.5 h-3.5 flex-shrink-0 dark:text-gray-400" aria-hidden="true" />
                   <time dateTime={visit.scheduledDate}>
                     {format(new Date(visit.scheduledDate), "MMM d, yyyy • h:mm a")}
                   </time>
@@ -106,22 +107,22 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
               )}
               {visit.completedDate && (
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 dark:text-gray-400" aria-hidden="true" />
                   <time dateTime={visit.completedDate}>
                     Completed {format(new Date(visit.completedDate), "MMM d, yyyy")}
                   </time>
                 </div>
               )}
               {visit.status === "available" && (
-                <span className="text-text-secondary">Available to schedule</span>
+                <span className="text-text-secondary dark:text-gray-400">Available to schedule</span>
               )}
               {visit.doula && (
                 <div className="flex items-center gap-1.5 pt-1">
                   <div
-                    className="w-4 h-4 rounded-full bg-gray-200 flex-shrink-0"
+                    className="w-4 h-4 rounded-full bg-gray-200 dark:bg-gray-600 flex-shrink-0"
                     aria-hidden="true"
                   />
-                  <span className="text-xs">{visit.doula.name}</span>
+                  <span className="text-xs dark:text-gray-300">{visit.doula.name}</span>
                 </div>
               )}
             </div>
@@ -131,7 +132,7 @@ export const VisitCard: React.FC<VisitCardProps> = ({ visit, isLast = false, onC
             className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
             aria-hidden="true"
           >
-            <ArrowRight className="w-5 h-5 text-text-secondary" />
+            <ArrowRight className="w-5 h-5 text-text-secondary dark:text-gray-400" />
           </div>
         </div>
       </div>

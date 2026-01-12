@@ -25,7 +25,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const location = useLocation();
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 safe-area-bottom">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-card border-t border-gray-200 dark:border-border safe-area-bottom">
       <div className="flex items-center justify-around h-16">
         {navigationItems.map((item) => {
           const isActive =
@@ -39,11 +39,11 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
               className={cn(
                 "flex flex-col items-center justify-center gap-1 flex-1 h-full transition-colors",
                 isActive
-                  ? "text-secondary-success"
-                  : "text-text-secondary"
+                  ? "text-secondary-success dark:text-secondary-success"
+                  : "text-text-secondary dark:text-muted-foreground"
               )}
             >
-              <Icon className={cn("h-5 w-5", isActive && "text-secondary-success")} />
+              <Icon className={cn("h-5 w-5", isActive && "text-secondary-success dark:text-secondary-success")} />
               <span className="text-xs font-medium">{item.label}</span>
             </Link>
           );

@@ -25,13 +25,13 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         className
       )}
     >
-      <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-        <AlertCircle className="w-8 h-8 text-red-600" />
+      <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-4">
+        <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
       </div>
-      <h2 className="text-xl font-bold text-text-primary mb-2 text-center">
+      <h2 className="text-xl font-bold text-text-primary dark:text-card-foreground mb-2 text-center">
         {title}
       </h2>
-      <p className="text-text-secondary text-center mb-6 max-w-md">{message}</p>
+      <p className="text-text-secondary dark:text-muted-foreground text-center mb-6 max-w-md">{message}</p>
       {onRetry && (
         <Button onClick={onRetry} className="flex items-center gap-2">
           <RefreshCw className="w-4 h-4" />

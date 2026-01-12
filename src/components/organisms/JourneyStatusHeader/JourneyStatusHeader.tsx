@@ -31,8 +31,8 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({ patien
   return (
     <div
       className={cn(
-        "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden",
-        "bg-gradient-to-br from-white via-primary-light/5 to-secondary-light/5"
+        "bg-white dark:bg-card rounded-xl shadow-sm border border-gray-100 dark:border-border overflow-hidden",
+        "bg-gradient-to-br from-white via-primary-light/5 to-secondary-light/5 dark:from-card dark:via-primary/5 dark:to-secondary-success/5"
       )}
     >
       <div className="p-6 lg:p-8">
@@ -41,7 +41,7 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({ patien
           <div className="flex items-start gap-5">
             {/* Circular Progress with decorative background */}
             <div className="relative flex-shrink-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary-success/20 rounded-full blur-xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary-success/20 dark:from-primary/30 dark:to-secondary-success/30 rounded-full blur-xl" />
               <CircularProgress
                 percentage={progress}
                 size={80}
@@ -53,19 +53,19 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({ patien
             {/* Patient Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
-                <Heart className="w-5 h-5 text-primary flex-shrink-0" />
-                <h1 className="text-2xl lg:text-3xl font-bold text-text-primary">
+                <Heart className="w-5 h-5 text-primary dark:text-primary flex-shrink-0" />
+                <h1 className="text-2xl lg:text-3xl font-bold text-text-primary dark:text-white">
                   Hi, {patient.name}
                 </h1>
               </div>
               <div className="space-y-1.5">
-                <div className="flex items-center gap-2 text-sm text-text-secondary">
-                  <Calendar className="w-4 h-4 flex-shrink-0" />
+                <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-gray-300">
+                  <Calendar className="w-4 h-4 flex-shrink-0 dark:text-gray-400" />
                   <span>
                     {completedVisits} of {totalVisits} visits completed
                   </span>
                 </div>
-                <p className="text-sm font-medium text-text-primary">{weekText}</p>
+                <p className="text-sm font-medium text-text-primary dark:text-white">{weekText}</p>
               </div>
             </div>
           </div>
@@ -75,15 +75,15 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({ patien
             <div
               className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-xl border-2 shadow-sm",
-                "bg-gradient-to-br from-primary-light/30 to-white",
-                "border-primary/20"
+                "bg-gradient-to-br from-primary-light/30 to-white dark:from-primary/20 dark:to-card",
+                "border-primary/20 dark:border-primary/30"
               )}
             >
-              <span className="text-sm font-semibold text-text-secondary">Plan:</span>
+              <span className="text-sm font-semibold text-text-secondary dark:text-gray-300">Plan:</span>
               <div
                 className={cn(
                   "px-4 py-2 text-sm font-bold text-white rounded-lg shadow-md",
-                  "bg-gradient-to-r from-primary to-primary-hover"
+                  "bg-gradient-to-r from-primary to-primary-hover dark:from-primary dark:to-primary-hover"
                 )}
               >
                 {insuranceTypeLabel}
@@ -93,16 +93,16 @@ export const JourneyStatusHeader: React.FC<JourneyStatusHeaderProps> = ({ patien
         </div>
 
         {/* Progress Bar */}
-        <div className="mt-6 pt-6 border-t border-gray-200">
+        <div className="mt-6 pt-6 border-t border-gray-200 dark:border-border">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <span className="text-xs font-semibold text-text-secondary dark:text-gray-300 uppercase tracking-wide">
               Journey Progress
             </span>
-            <span className="text-sm font-bold text-primary">{progress}%</span>
+            <span className="text-sm font-bold text-primary dark:text-primary">{progress}%</span>
           </div>
-          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-3 bg-gray-100 dark:bg-gray-700/50 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-primary to-secondary-success rounded-full transition-all duration-500 ease-out shadow-sm"
+              className="h-full bg-gradient-to-r from-primary to-secondary-success dark:from-primary dark:to-secondary-success rounded-full transition-all duration-500 ease-out shadow-sm"
               style={{ width: `${progress}%` }}
             />
           </div>

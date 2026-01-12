@@ -40,7 +40,7 @@ export const RegisterPage: React.FC = () => {
     <form className="space-y-6" onSubmit={handleSubmit}>
       {/* Error Message */}
       {errorMessage && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+        <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm">
           {errorMessage}
         </div>
       )}
@@ -114,11 +114,11 @@ export const RegisterPage: React.FC = () => {
         />
         <Label htmlFor="terms" className="text-sm font-normal cursor-pointer">
           I agree to the{" "}
-          <Link to="#" className="text-secondary-success hover:underline">
+          <Link to="#" className="text-secondary-success dark:text-secondary-accent hover:underline dark:hover:text-secondary-success">
             Terms and Conditions
           </Link>{" "}
           and{" "}
-          <Link to="#" className="text-secondary-success hover:underline">
+          <Link to="#" className="text-secondary-success dark:text-secondary-accent hover:underline dark:hover:text-secondary-success">
             Privacy Policy
           </Link>
         </Label>
@@ -151,8 +151,8 @@ export const RegisterPage: React.FC = () => {
 
   const footerLink = (
     <div className="text-center text-sm">
-      <span className="text-text-secondary">Already have an account? </span>
-      <Link to="/" className="text-secondary-success hover:text-secondary-emphasis font-medium">
+      <span className="text-text-secondary dark:text-muted-foreground">Already have an account? </span>
+      <Link to="/" className="text-secondary-success dark:text-secondary-accent hover:text-secondary-emphasis dark:hover:text-secondary-success font-medium">
         Log In
       </Link>
     </div>

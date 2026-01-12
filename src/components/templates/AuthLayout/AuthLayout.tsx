@@ -21,7 +21,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   footerLink,
 }) => {
   return (
-    <div className="h-screen flex flex-col lg:flex-row overflow-hidden bg-white lg:bg-white bg-cover bg-center bg-no-repeat lg:bg-none">
+    <div className="h-screen flex flex-col lg:flex-row overflow-hidden bg-white dark:bg-background lg:bg-white dark:lg:bg-background bg-cover bg-center bg-no-repeat lg:bg-none">
       {/* Mobile Background Image */}
       <div
         className="lg:hidden fixed inset-0 z-0"
@@ -34,7 +34,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       />
       {/* Left side - Form */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-12 py-8 lg:py-0 overflow-y-auto relative z-10 lg:z-auto">
-        <div className="w-full max-w-md space-y-6 lg:space-y-8 bg-white rounded-lg p-6 lg:p-0 shadow-lg lg:shadow-none">
+        <div className="w-full max-w-md space-y-6 lg:space-y-8 bg-white dark:bg-background rounded-lg p-6 lg:p-0 shadow-lg lg:shadow-none">
           {/* Logo */}
           <div className="flex items-center">
             <img src="/logo-dark.png" alt="Raya Health" className="h-20 w-auto" />
@@ -42,8 +42,12 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
 
           {/* Title and Description */}
           <div>
-            <h1 className="text-3xl font-bold text-text-primary">{title}</h1>
-            <p className="mt-2 text-sm text-text-secondary">{description}</p>
+            <h1 className="text-3xl font-bold text-text-primary dark:text-card-foreground">
+              {title}
+            </h1>
+            <p className="mt-2 text-sm text-text-secondary dark:text-muted-foreground">
+              {description}
+            </p>
           </div>
 
           {/* Form Content */}
@@ -53,7 +57,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
           {footerLink}
 
           {/* Copyright */}
-          <p className="text-xs text-text-secondary text-center">
+          <p className="text-xs text-text-secondary dark:text-muted-foreground text-center">
             ©2024 Raya Health. All rights reserved.
           </p>
         </div>

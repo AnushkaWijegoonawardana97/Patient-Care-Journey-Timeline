@@ -62,7 +62,7 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
     <div className="relative pl-12 pb-8">
       {/* Timeline connector line */}
       {!isLast && (
-        <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 to-transparent -translate-x-1/2" />
+        <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 dark:from-gray-600 to-transparent -translate-x-1/2" />
       )}
 
       {/* Celebratory icon marker */}
@@ -71,7 +71,7 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
           <Icon className={cn("w-6 h-6", config.iconColor)} />
         </div>
         {/* Decorative sparkle effect */}
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 rounded-full opacity-75 animate-pulse" />
+        <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 dark:bg-yellow-400 rounded-full opacity-75 dark:opacity-90 animate-pulse" />
       </div>
 
       {/* Milestone card */}
@@ -79,7 +79,8 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
         className={cn(
           "ml-4 rounded-xl border-2 shadow-md overflow-hidden transition-all hover:shadow-lg",
           `bg-gradient-to-br ${config.gradient}`,
-          "border-white/50"
+          "border-white/50 dark:border-gray-700/50",
+          "dark:from-gray-800/80 dark:via-gray-800/60 dark:to-gray-800/80"
         )}
       >
         <div className="p-4">
@@ -88,28 +89,29 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
             <span
               className={cn(
                 "px-2.5 py-1 rounded-full text-xs font-semibold border",
-                config.badgeColor
+                config.badgeColor,
+                "dark:bg-opacity-20 dark:text-opacity-90 dark:border-opacity-30"
               )}
             >
               {config.badgeText}
             </span>
-            <span className="text-xs font-medium text-text-secondary">
+            <span className="text-xs font-medium text-text-secondary dark:text-gray-300">
               {format(new Date(milestone.date), "MMM d, yyyy")}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-lg font-bold text-text-primary mb-1">{milestone.title}</h3>
+          <h3 className="text-lg font-bold text-text-primary dark:text-white mb-1">{milestone.title}</h3>
 
           {/* Description */}
           {milestone.description && (
-            <p className="text-sm text-text-secondary leading-relaxed">{milestone.description}</p>
+            <p className="text-sm text-text-secondary dark:text-gray-300 leading-relaxed">{milestone.description}</p>
           )}
 
           {/* Celebration decoration */}
-          <div className="flex items-center gap-1 mt-3 pt-3 border-t border-white/50">
-            <Sparkles className="w-4 h-4 text-yellow-500" />
-            <span className="text-xs font-medium text-text-secondary italic">
+          <div className="flex items-center gap-1 mt-3 pt-3 border-t border-white/50 dark:border-gray-700/50">
+            <Sparkles className="w-4 h-4 text-yellow-500 dark:text-yellow-400" />
+            <span className="text-xs font-medium text-text-secondary dark:text-gray-400 italic">
               A special moment in your journey
             </span>
           </div>

@@ -38,7 +38,7 @@ export const LoginPage: React.FC = () => {
     <form className="space-y-6" onSubmit={handleSubmit}>
       {/* Error Message */}
       {errorMessage && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+        <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm">
           {errorMessage}
         </div>
       )}
@@ -85,7 +85,7 @@ export const LoginPage: React.FC = () => {
             Remember me
           </Label>
         </div>
-        <Link to="#" className="text-sm text-secondary-success hover:text-secondary-emphasis">
+        <Link to="#" className="text-sm text-secondary-success dark:text-secondary-accent hover:text-secondary-emphasis dark:hover:text-secondary-success">
           Forgot Password?
         </Link>
       </div>
@@ -117,10 +117,10 @@ export const LoginPage: React.FC = () => {
 
   const footerLink = (
     <div className="text-center text-sm">
-      <span className="text-text-secondary">Not registered yet? </span>
+      <span className="text-text-secondary dark:text-muted-foreground">Not registered yet? </span>
       <Link
         to="/register"
-        className="text-secondary-success hover:text-secondary-emphasis font-medium"
+        className="text-secondary-success dark:text-secondary-accent hover:text-secondary-emphasis dark:hover:text-secondary-success font-medium"
       >
         Create an Account
       </Link>

@@ -34,10 +34,10 @@ export const VisitInfoItem: React.FC<VisitInfoItemProps> = ({
         </div>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-text-secondary mb-1">{label}</p>
-        <div className="text-base text-text-primary">{value}</div>
+        <p className="text-sm font-semibold text-text-secondary dark:text-gray-400 mb-1">{label}</p>
+        <div className="text-base text-text-primary dark:text-white">{value}</div>
         {secondaryValue && (
-          <p className="text-sm text-text-secondary mt-1">{secondaryValue}</p>
+          <p className="text-sm text-text-secondary dark:text-gray-300 mt-1">{secondaryValue}</p>
         )}
       </div>
     </div>

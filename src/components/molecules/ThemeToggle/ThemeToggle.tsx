@@ -12,17 +12,17 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
 
   return (
     <div className={cn("flex items-center justify-between", className)}>
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg bg-primary-light flex items-center justify-center">
+      <div className="flex items-center gap-4">
+        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 flex items-center justify-center">
           {theme === "light" ? (
-            <Sun className="w-5 h-5 text-primary" />
+            <Sun className="w-5 h-5 text-primary dark:text-primary" />
           ) : (
-            <Moon className="w-5 h-5 text-primary" />
+            <Moon className="w-5 h-5 text-primary dark:text-primary" />
           )}
         </div>
         <div>
-          <p className="text-sm font-semibold text-text-primary">Theme</p>
-          <p className="text-xs text-text-secondary">Choose your preferred theme</p>
+          <p className="text-sm font-semibold text-text-primary dark:text-white mb-0.5">Theme</p>
+          <p className="text-xs text-text-secondary dark:text-gray-400">Choose your preferred theme</p>
         </div>
       </div>
       <button

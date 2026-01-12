@@ -51,12 +51,33 @@ export const Dashboard: React.FC = () => {
       message: missedVisits > 0 ? `${missedVisits} missed visit(s)` : "All appointments scheduled",
     };
 
-    // Get upcoming milestone
+    // Get upcoming milestone - compare dates at start of day to avoid timezone issues
     const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // Find the next milestone that hasn't passed yet
     const upcomingMilestones = milestones
-      .filter((m) => new Date(m.date) > now)
+      .filter((m) => {
+        const milestoneDate = new Date(m.date);
+        const milestoneDay = new Date(
+          milestoneDate.getFullYear(),
+          milestoneDate.getMonth(),
+          milestoneDate.getDate()
+        );
+        return milestoneDay >= today;
+      })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    const upcomingMilestone = upcomingMilestones[0];
+
+    // Get the next upcoming milestone, or the last milestone if all have passed
+    const upcomingMilestone =
+      upcomingMilestones[0] ||
+      milestones.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+
+    // Get last completed visit
+    const completedVisitsList = visits
+      .filter((v) => v.status === "completed" && v.completedDate)
+      .sort((a, b) => new Date(b.completedDate!).getTime() - new Date(a.completedDate!).getTime());
+    const lastCompletedVisit = completedVisitsList[0];
 
     return {
       patientName: patient.name,
@@ -64,9 +85,23 @@ export const Dashboard: React.FC = () => {
       visitProgress: { completed: completedVisits, total: totalVisits },
       nextVisit,
       journeyStatus,
-      upcomingMilestone: upcomingMilestone?.title || "No upcoming milestones",
+      upcomingMilestone: upcomingMilestone?.title || "No milestones available",
       milestoneDate: upcomingMilestone
         ? format(new Date(upcomingMilestone.date), "MMMM d, yyyy")
+        : undefined,
+      isUpcoming: upcomingMilestones.length > 0,
+      lastCompletedVisit: lastCompletedVisit
+        ? {
+            date: format(new Date(lastCompletedVisit.completedDate!), "MMMM d, yyyy"),
+            type:
+              lastCompletedVisit.type === "prenatal_postpartum"
+                ? `Prenatal Visit ${lastCompletedVisit.visitNumber}`
+                : lastCompletedVisit.type === "initial"
+                ? "Initial Consultation"
+                : lastCompletedVisit.type === "labor_delivery"
+                ? "Labor & Delivery"
+                : "Visit",
+          }
         : undefined,
     };
   }, [journey]);
@@ -109,8 +144,10 @@ export const Dashboard: React.FC = () => {
     status: "On Track",
     message: "All appointments scheduled",
   };
-  const upcomingMilestone = dashboardData?.upcomingMilestone || "No upcoming milestones";
+  const upcomingMilestone = dashboardData?.upcomingMilestone || "No milestones available";
   const milestoneDate = dashboardData?.milestoneDate;
+  const lastCompletedVisit = dashboardData?.lastCompletedVisit;
+  const isUpcoming = dashboardData?.isUpcoming ?? true;
 
   return (
     <DashboardLayout activeNavItem="Dashboard" patientName={patientName}>
@@ -154,6 +191,8 @@ export const Dashboard: React.FC = () => {
           currentPhase={phase}
           upcomingMilestone={upcomingMilestone}
           milestoneDate={milestoneDate}
+          lastCompletedVisit={lastCompletedVisit}
+          isUpcoming={isUpcoming}
         />
       </div>
     </DashboardLayout>

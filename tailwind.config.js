@@ -41,7 +41,7 @@ export default {
           error: "#EF4444",
           neutral: "#9CA3AF",
         },
-        // Typography colors
+        // Typography colors - with dark mode support
         text: {
           primary: "#111827",
           secondary: "#6B7280",

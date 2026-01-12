@@ -91,9 +91,21 @@ export const AddOnServices: React.FC = () => {
 
   return (
     <DashboardLayout activeNavItem="Add-On Services" patientName={user?.name || "Sarah"}>
-      <div className="space-y-6">
+      <div className="space-y-6 mt-6 lg:mt-8">
         {/* Header */}
-        <h1 className="text-xl font-bold text-text-primary">Add-On Services</h1>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 flex items-center justify-center">
+            <Bone className="w-5 h-5 text-primary dark:text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold text-text-primary dark:text-white">
+              Add-On Services
+            </h1>
+            <p className="text-sm text-text-secondary dark:text-gray-400 mt-0.5">
+              Optional services to enhance your care journey
+            </p>
+          </div>
+        </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">

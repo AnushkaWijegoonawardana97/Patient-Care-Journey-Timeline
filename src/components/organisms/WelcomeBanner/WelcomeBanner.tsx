@@ -26,32 +26,37 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
   const images = imageUrl ? [imageUrl] : [];
 
   return (
-    <div className="bg-gradient-to-br from-secondary-light via-white to-primary-light rounded-lg shadow-sm border border-gray-100 p-4 lg:p-6 h-full flex flex-col w-full">
-      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-stretch flex-1">
+    <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-100 dark:border-border overflow-hidden h-full flex flex-col w-full bg-gradient-to-br from-primary-light/10 via-white to-secondary-light/10 dark:from-primary/10 dark:via-card dark:to-secondary-success/10">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-stretch flex-1 p-6 lg:p-8">
         {/* Left Section - Text and Buttons */}
-        <div className="flex-1 flex flex-col justify-between gap-4">
-          <div>
-            <h1 className="text-xl lg:text-2xl font-bold text-primary mb-2">
-              Welcome, {patientName}! 👋
-            </h1>
-            <p className="text-sm lg:text-base text-text-secondary leading-relaxed">
+        <div className="flex-1 flex flex-col justify-between gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center shadow-md">
+                <span className="text-2xl">👋</span>
+              </div>
+              <h1 className="text-2xl lg:text-3xl font-bold text-text-primary dark:text-card-foreground">
+                Welcome, {patientName}!
+              </h1>
+            </div>
+            <p className="text-base lg:text-lg text-text-secondary dark:text-muted-foreground leading-relaxed">
               {promptMessage}
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-2 sm:items-start">
-            <Button asChild size="lg" className="w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 sm:items-start">
+            <Button asChild size="lg" className="w-full sm:w-auto shadow-md hover:shadow-lg transition-all">
               <Link to={primaryActionTo}>
                 {primaryActionLabel}
-                <ArrowRight className="ml-1.5 h-3 w-3" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button
               asChild
               variant="secondary"
               size="lg"
-              className="w-full sm:w-auto border-2 border-secondary-success text-secondary-success hover:bg-secondary-light"
+              className="w-full sm:w-auto border-2 border-secondary-success text-secondary-success hover:bg-secondary-light shadow-sm hover:shadow-md transition-all"
             >
               <Link to={secondaryActionTo}>{secondaryActionLabel}</Link>
             </Button>
@@ -60,7 +65,7 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
 
         {/* Right Section - Image */}
         <div className="lg:w-64 w-full flex-shrink-0 flex items-center">
-          <div className="relative rounded-lg overflow-hidden bg-gray-100 aspect-square w-full shadow-md">
+          <div className="relative rounded-xl overflow-hidden bg-gray-100 aspect-square w-full shadow-lg border-2 border-gray-200/50">
             {images.length > 0 ? (
               <>
                 <img
@@ -68,6 +73,8 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
                   alt="Care journey"
                   className="w-full h-full object-cover"
                 />
+                {/* Gradient overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                 {images.length > 1 && (
                   <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
                     {images.map((_, index) => (
@@ -76,7 +83,7 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
                         onClick={() => setCurrentImageIndex(index)}
                         className={`
                           w-2 h-2 rounded-full transition-all
-                          ${index === currentImageIndex ? "bg-white" : "bg-white/50"}
+                          ${index === currentImageIndex ? "bg-white shadow-md" : "bg-white/50"}
                         `}
                         aria-label={`Go to image ${index + 1}`}
                       />
@@ -85,12 +92,12 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
                 )}
               </>
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-light to-secondary-accent">
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary-light/30 to-secondary-light/30">
                 <div className="text-center p-4">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-secondary-success/20 flex items-center justify-center">
-                    <ArrowRight className="h-8 w-8 text-secondary-success rotate-[-45deg]" />
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary-success flex items-center justify-center shadow-lg">
+                    <ArrowRight className="h-8 w-8 text-white rotate-[-45deg]" />
                   </div>
-                  <p className="text-sm text-text-secondary">Care Journey</p>
+                  <p className="text-sm font-medium text-text-primary dark:text-card-foreground">Care Journey</p>
                 </div>
               </div>
             )}

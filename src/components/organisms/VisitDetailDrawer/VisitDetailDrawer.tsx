@@ -48,7 +48,7 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
       />
       <div
         className={cn(
-          "fixed inset-y-0 right-0 w-full max-w-2xl bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out",
+          "fixed inset-y-0 right-0 w-full max-w-2xl bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out",
           "lg:translate-x-0",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
@@ -115,7 +115,7 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
             </div>
 
             {/* Visit Information Section */}
-            <div className="p-6 lg:p-8 space-y-5 bg-gradient-to-b from-white to-gray-50/30">
+            <div className="p-6 lg:p-8 space-y-5 bg-gradient-to-b from-white to-gray-50/30 dark:from-gray-900 dark:to-gray-800/50">
               {visit.scheduledDate && (
                 <VisitInfoItem
                   icon={Calendar}
@@ -167,14 +167,14 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
 
             {/* Doula Section */}
             {visit.doula && (
-              <div className="px-6 lg:px-8 py-6 border-t border-gray-200 bg-white">
+              <div className="px-6 lg:px-8 py-6 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-md">
                     <User className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-base font-semibold text-text-primary">Your Care Provider</p>
-                    <p className="text-xs text-text-secondary">Assigned Doula</p>
+                    <p className="text-base font-semibold text-text-primary dark:text-white">Your Care Provider</p>
+                    <p className="text-xs text-text-secondary dark:text-gray-400">Assigned Doula</p>
                   </div>
                 </div>
                 <div
@@ -182,7 +182,8 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
                     "rounded-2xl border-2 p-5 shadow-md transition-all hover:shadow-lg",
                     "bg-gradient-to-br",
                     statusConfig?.gradient || "from-purple-50/50 to-pink-50/30",
-                    "border-purple-200/50"
+                    "border-purple-200/50 dark:border-purple-800/30",
+                    "dark:from-purple-900/30 dark:to-pink-900/20"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -193,18 +194,18 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
                       size="lg"
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="text-lg font-semibold text-text-primary mb-1">
+                      <p className="text-lg font-semibold text-text-primary dark:text-white mb-1">
                         {visit.doula.name}
                       </p>
                       {visit.doula.languages.length > 0 && (
                         <div className="flex flex-wrap items-center gap-2 mt-2">
-                          <span className="text-xs font-medium text-text-secondary">
+                          <span className="text-xs font-medium text-text-secondary dark:text-gray-400">
                             Languages:
                           </span>
                           {visit.doula.languages.map((lang: string, index: number) => (
                             <span
                               key={index}
-                              className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-white border border-gray-200 text-text-primary shadow-sm"
+                              className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-text-primary dark:text-gray-300 shadow-sm"
                             >
                               {lang}
                             </span>
@@ -219,14 +220,14 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
 
             {/* Notes Section */}
             {visit.notes && (
-              <div className="px-6 lg:px-8 pt-6 pb-6 border-t border-gray-200 bg-gradient-to-b from-gray-50/30 to-white">
+              <div className="px-6 lg:px-8 pt-6 pb-6 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-b from-gray-50/30 to-white dark:from-gray-800/50 dark:to-gray-900">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
                     <FileText className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-base font-semibold text-text-primary">Visit Notes</p>
-                    <p className="text-xs text-text-secondary">
+                    <p className="text-base font-semibold text-text-primary dark:text-white">Visit Notes</p>
+                    <p className="text-xs text-text-secondary dark:text-gray-400">
                       Important information from your visit
                     </p>
                   </div>
@@ -236,10 +237,11 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
                     "rounded-2xl border-2 p-5 shadow-md",
                     "bg-gradient-to-br",
                     statusConfig?.gradient || "from-blue-50/50 to-indigo-50/30",
-                    "border-blue-200/50"
+                    "border-blue-200/50 dark:border-blue-800/30",
+                    "dark:from-blue-900/30 dark:to-indigo-900/20"
                   )}
                 >
-                  <p className="text-sm text-text-primary leading-relaxed whitespace-pre-wrap">
+                  <p className="text-sm text-text-primary dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
                     {visit.notes}
                   </p>
                 </div>

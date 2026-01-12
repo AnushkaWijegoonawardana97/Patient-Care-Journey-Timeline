@@ -14,7 +14,7 @@ export const AddOnServiceCard: React.FC<AddOnServiceCardProps> = ({ service, cla
   return (
     <div
       className={cn(
-        "bg-white rounded-xl shadow-sm border border-gray-100",
+        "bg-white dark:bg-card rounded-xl shadow-sm border border-gray-100 dark:border-border",
         // Mobile: horizontal layout
         "flex flex-row gap-4 p-4",
         // Desktop: vertical layout
@@ -34,7 +34,7 @@ export const AddOnServiceCard: React.FC<AddOnServiceCardProps> = ({ service, cla
       {/* Content */}
       <div className="flex-1 min-w-0">
         {/* Service Name */}
-        <h3 className="text-sm md:text-base font-bold text-text-primary mb-0.5 truncate">
+        <h3 className="text-sm md:text-base font-bold text-text-primary dark:text-card-foreground mb-0.5 truncate">
           {service.name}
         </h3>
 
@@ -44,8 +44,8 @@ export const AddOnServiceCard: React.FC<AddOnServiceCardProps> = ({ service, cla
             variant="outline"
             className={
               isComingSoon
-                ? "bg-tertiary-info text-primary-dark border-0 text-xs"
-                : "bg-secondary-light text-secondary-emphasis border-0 text-xs"
+                ? "bg-tertiary-info dark:bg-tertiary-info/20 text-primary-dark dark:text-tertiary-info border-0 text-xs"
+                : "bg-secondary-light dark:bg-secondary-success/20 text-secondary-emphasis dark:text-secondary-accent border-0 text-xs"
             }
           >
             {isComingSoon ? "Coming Soon" : "Optional Add-On"}
@@ -55,9 +55,9 @@ export const AddOnServiceCard: React.FC<AddOnServiceCardProps> = ({ service, cla
         {/* Description - compact on mobile, full on desktop */}
         <div>
           {/* Label only shown on desktop */}
-          <p className="hidden md:block text-xs text-text-secondary italic mb-0.5">Description</p>
+          <p className="hidden md:block text-xs text-text-secondary dark:text-muted-foreground italic mb-0.5">Description</p>
           {/* Description text - truncated on mobile, full on desktop */}
-          <p className="text-xs md:text-sm text-text-primary leading-relaxed line-clamp-2 md:line-clamp-none">
+          <p className="text-xs md:text-sm text-text-primary dark:text-card-foreground leading-relaxed line-clamp-2 md:line-clamp-none">
             {service.description}
           </p>
         </div>
