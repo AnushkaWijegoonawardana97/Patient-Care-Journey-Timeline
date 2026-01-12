@@ -1,10 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 /**
  * Hook to handle skip link functionality
  * Manages focus when skip link is activated
  */
-export const useSkipLink = (targetId: string): {
+export const useSkipLink = (
+  targetId: string
+): {
   skipLinkRef: React.RefObject<HTMLAnchorElement>;
   handleSkip: () => void;
 } => {
@@ -14,9 +16,9 @@ export const useSkipLink = (targetId: string): {
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
       // Remove tabindex if it was added temporarily
-      const hadTabIndex = targetElement.hasAttribute('tabindex');
+      const hadTabIndex = targetElement.hasAttribute("tabindex");
       if (!hadTabIndex) {
-        targetElement.setAttribute('tabindex', '-1');
+        targetElement.setAttribute("tabindex", "-1");
       }
 
       targetElement.focus();
@@ -24,13 +26,13 @@ export const useSkipLink = (targetId: string): {
       // Remove tabindex after focus to restore natural tab order
       setTimeout(() => {
         if (!hadTabIndex) {
-          targetElement.removeAttribute('tabindex');
+          targetElement.removeAttribute("tabindex");
         }
       }, 100);
 
       // Scroll into view if needed
-      if (typeof targetElement.scrollIntoView === 'function') {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (typeof targetElement.scrollIntoView === "function") {
+        targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   };
@@ -41,10 +43,10 @@ export const useSkipLink = (targetId: string): {
       return;
     }
 
-    skipLink.addEventListener('click', handleSkip);
+    skipLink.addEventListener("click", handleSkip);
 
     return () => {
-      skipLink.removeEventListener('click', handleSkip);
+      skipLink.removeEventListener("click", handleSkip);
     };
   }, [targetId]);
 

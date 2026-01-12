@@ -35,14 +35,20 @@ vi.mock('react-i18next', async () => {
     useTranslation: () => ({
       t: (key: string) => {
         const translations: Record<string, string> = {
-          'auth.welcomeBack': 'Welcome Back!',
-          'auth.loginSubtitle': 'Sign in to continue',
-          'auth.email': 'Email',
-          'auth.password': 'Password',
-          'auth.rememberMe': 'Remember me',
-          'auth.login': 'Log In',
-          'auth.noAccount': 'Not registered yet?',
-          'auth.createAccount': 'Create an Account',
+          'auth.login.title': 'Welcome Back!',
+          'auth.login.subtitle': 'Sign in to continue',
+          'auth.login.email': 'Email',
+          'auth.login.password': 'Password',
+          'auth.login.emailPlaceholder': 'Enter your email',
+          'auth.login.passwordPlaceholder': 'Enter your password',
+          'auth.login.rememberMe': 'Remember me',
+          'auth.login.forgotPassword': 'Forgot password?',
+          'auth.login.signIn': 'Log In',
+          'auth.login.signInWithGoogle': 'Sign in with Google',
+          'auth.login.noAccount': 'Not registered yet?',
+          'auth.login.signUp': 'Create an Account',
+          'auth.login.loginFailed': 'Login failed',
+          'common.loading': 'Loading...',
         };
         return translations[key] || key;
       },

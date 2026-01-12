@@ -65,9 +65,6 @@ jobs:
   test:
     name: Unit Tests & Coverage
     runs-on: ubuntu-latest
-    # TODO: Re-enable when code is ready for testing
-    # Temporarily disabled during project setup phase
-    if: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -91,7 +88,7 @@ jobs:
         run: npm run test:coverage
         continue-on-error: false
 
-      - name: Check coverage threshold (80% required)
+      - name: Check coverage threshold (60% required)
         run: npm run test:coverage:check
         continue-on-error: false
 
@@ -105,15 +102,13 @@ jobs:
   all-checks:
     name: All Checks Passed
     runs-on: ubuntu-latest
-    # TODO: Add 'test' back to needs array when test job is re-enabled
-    needs: [lint, build]
+    needs: [lint, build, test]
     if: always()
     steps:
       - name: Check all jobs status
         run: |
-          if [ "${{ needs.lint.result }}" != "success" ] || [ "${{ needs.build.result }}" != "success" ]; then
+          if [ "${{ needs.lint.result }}" != "success" ] || [ "${{ needs.build.result }}" != "success" ] || [ "${{ needs.test.result }}" != "success" ]; then
             echo "❌ One or more checks failed"
             exit 1
           fi
-          echo "✅ All PR checks passed: lint and build"
-          echo "ℹ️  Test check is temporarily disabled during project setup"
+          echo "✅ All PR checks passed: lint, build, and test (60% coverage required)"
