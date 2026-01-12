@@ -1,6 +1,7 @@
 import * as React from "react";
 import { LayoutDashboard, Calendar, PlusCircle, Settings, Menu, X, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { NavigationItem } from "@/components/molecules/NavigationItem/NavigationItem";
 import { cn } from "@/lib/utils";
 
@@ -8,18 +9,19 @@ export interface SidebarNavigationProps {
   activeNavItem?: string;
 }
 
-const navigationItems = [
-  { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
-  { icon: Calendar, label: "Care Journey", to: "/care-journey" },
-  { icon: PlusCircle, label: "Add-On Services", to: "/add-on-services" },
-  { icon: Settings, label: "Settings", to: "/settings" },
-];
-
 export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
-  activeNavItem = "Dashboard",
+  activeNavItem,
 }) => {
+  const { t } = useTranslation();
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const navigationItems = [
+    { icon: LayoutDashboard, label: t("navigation.dashboard"), to: "/dashboard", key: "dashboard" },
+    { icon: Calendar, label: t("navigation.careJourney"), to: "/care-journey", key: "careJourney" },
+    { icon: PlusCircle, label: t("navigation.addOnServices"), to: "/add-on-services", key: "addOnServices" },
+    { icon: Settings, label: t("navigation.settings"), to: "/settings", key: "settings" },
+  ];
 
   const handleLogout = () => {
     // Dummy logout - just navigate to login
@@ -64,7 +66,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
                   icon={item.icon}
                   label={item.label}
                   to={item.to}
-                  active={activeNavItem === item.label}
+                  active={activeNavItem === item.key}
                 />
               </div>
             ))}
@@ -76,7 +78,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
             className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-text-secondary hover:bg-gray-100 hover:text-text-primary transition-colors w-full"
           >
             <LogOut className="h-5 w-5" />
-            <span>Logout</span>
+            <span>{t("navigation.logout")}</span>
           </button>
         </div>
 

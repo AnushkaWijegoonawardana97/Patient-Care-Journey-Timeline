@@ -1,6 +1,7 @@
 import type { Preview } from "@storybook/react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "../src/contexts/ThemeContext";
+import "../src/lib/i18n"; // Initialize i18n for Storybook
 import "../src/style.css";
 
 const preview: Preview = {

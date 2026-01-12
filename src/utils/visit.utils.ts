@@ -6,36 +6,40 @@ import {
   AlertCircle,
   type LucideIcon,
 } from "lucide-react";
+import i18n from "@/lib/i18n";
 import type { Visit, VisitStatus } from "@/types/journey";
 
 /**
  * Formats a visit status to a human-readable label
  * @param status - The visit status to format
- * @returns Capitalized status label (e.g., "Completed", "Scheduled")
+ * @returns Translated status label
  */
 export const formatStatusLabel = (status: VisitStatus): string => {
-  return status.charAt(0).toUpperCase() + status.slice(1);
+  return i18n.t(`visits.status.${status}`);
 };
 
 /**
  * Gets the display title for a visit based on its type
  * @param visit - The visit object
- * @returns Formatted visit title string
+ * @returns Formatted visit title string with translations
  */
 export const getVisitTitle = (visit: Visit): string => {
   switch (visit.type) {
     case "initial":
-      return "Initial Consultation";
+      return i18n.t("visits.types.initial");
     case "labor_delivery":
-      return "Labor & Delivery";
+      return i18n.t("visits.types.laborDelivery");
     case "pregnancy_loss":
-      return "Pregnancy Loss Support";
+      return i18n.t("visits.types.pregnancyLoss");
     case "extended_postpartum":
-      return `Extended Postpartum Visit ${visit.visitNumber}`;
+      return i18n.t("visits.types.extendedPostpartum", { number: visit.visitNumber });
     case "additional_postpartum":
-      return `Additional Postpartum Visit ${visit.visitNumber}`;
+      return i18n.t("visits.types.additionalPostpartum", { number: visit.visitNumber });
     default:
-      return `Prenatal/Postpartum Visit ${visit.visitNumber} of ${visit.totalOfType}`;
+      return i18n.t("visits.types.prenatalPostpartumWithNumber", {
+        number: visit.visitNumber,
+        total: visit.totalOfType,
+      });
   }
 };
 

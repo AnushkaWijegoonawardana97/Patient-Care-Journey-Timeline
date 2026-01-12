@@ -11,6 +11,8 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n";
 import { Avatar } from "@/components/atoms/Avatar/Avatar";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -20,35 +22,37 @@ export interface TopNavigationProps {
   patientName?: string;
 }
 
-const navigationItems = [
-  { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
-  { icon: Calendar, label: "Care Journey", to: "/care-journey" },
-  { icon: PlusCircle, label: "Add-On Services", to: "/add-on-services" },
-  { icon: Settings, label: "Settings", to: "/settings" },
-];
-
 export const TopNavigation: React.FC<TopNavigationProps> = ({
-  activeNavItem = "Dashboard",
+  activeNavItem,
   patientName = "Patient",
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showLanguageMenu, setShowLanguageMenu] = React.useState(false);
-  const [currentLanguage, setCurrentLanguage] = React.useState("en");
+
+  const navigationItems = [
+    { icon: LayoutDashboard, label: t("navigation.dashboard"), to: "/dashboard", key: "dashboard" },
+    { icon: Calendar, label: t("navigation.careJourney"), to: "/care-journey", key: "careJourney" },
+    { icon: PlusCircle, label: t("navigation.addOnServices"), to: "/add-on-services", key: "addOnServices" },
+    { icon: Settings, label: t("navigation.settings"), to: "/settings", key: "settings" },
+  ];
 
   const languages = [
-    { code: "en", name: "English" },
-    { code: "es", name: "Spanish" },
+    { code: "en", name: t("common.english") },
+    { code: "es", name: t("common.spanish") },
   ];
+
+  const currentLanguage = i18n.language || "en";
 
   const handleLogout = () => {
     navigate("/");
   };
 
   const handleLanguageSelect = (langCode: string) => {
-    setCurrentLanguage(langCode);
+    i18n.changeLanguage(langCode);
     setShowLanguageMenu(false);
   };
 
@@ -63,7 +67,7 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
         {/* Center Navigation */}
         <nav className="hidden md:flex items-center gap-1 bg-white dark:bg-card rounded-lg px-2 py-1">
           {navigationItems.map((item) => {
-            const isActive = activeNavItem === item.label || location.pathname === item.to;
+            const isActive = activeNavItem === item.key || location.pathname === item.to;
             const Icon = item.icon;
 
             return (
@@ -91,8 +95,8 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
             <button
               onClick={() => setShowLanguageMenu(!showLanguageMenu)}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-muted transition-colors"
-              aria-label="Change language"
-              title="Language"
+              aria-label={t("common.changeLanguage")}
+              title={t("common.language")}
             >
               <Globe className="h-5 w-5 text-text-secondary dark:text-muted-foreground" />
             </button>
@@ -154,7 +158,9 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
                 <p className="text-sm font-medium text-text-primary dark:text-card-foreground">
                   {patientName}
                 </p>
-                <p className="text-xs text-text-secondary dark:text-muted-foreground">Patient ID</p>
+                <p className="text-xs text-text-secondary dark:text-muted-foreground">
+                  {t("navigation.patientId")}
+                </p>
               </div>
               <ChevronDown className="h-4 w-4 text-text-secondary dark:text-muted-foreground" />
             </button>
@@ -169,7 +175,7 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
                     className="w-full flex items-center gap-3 px-4 py-2 text-sm text-text-secondary dark:text-muted-foreground hover:bg-gray-100 dark:hover:bg-muted transition-colors"
                   >
                     <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
+                    <span>{t("navigation.logout")}</span>
                   </button>
                 </div>
               </>

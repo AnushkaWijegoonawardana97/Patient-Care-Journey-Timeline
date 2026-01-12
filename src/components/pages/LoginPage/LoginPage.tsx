@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
@@ -10,6 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import type { ApiError } from "@/types/api";
 
 export const LoginPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { loginAsync, isLoginLoading } = useAuth();
   const [email, setEmail] = React.useState("");
@@ -29,7 +31,7 @@ export const LoginPage: React.FC = () => {
       const apiError = error as ApiError;
       const message =
         apiError?.message ||
-        (error instanceof Error ? error.message : "Login failed. Please try again.");
+        (error instanceof Error ? error.message : t("auth.login.loginFailed"));
       setErrorMessage(message);
     }
   };
@@ -45,11 +47,11 @@ export const LoginPage: React.FC = () => {
 
       {/* Email Field */}
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t("auth.login.email")}</Label>
         <Input
           id="email"
           type="email"
-          placeholder="name@rayahealth.com"
+          placeholder={t("auth.login.emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -59,11 +61,11 @@ export const LoginPage: React.FC = () => {
 
       {/* Password Field */}
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">{t("auth.login.password")}</Label>
         <Input
           id="password"
           type="password"
-          placeholder="at least 8 characters"
+          placeholder={t("auth.login.passwordPlaceholder")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -82,11 +84,11 @@ export const LoginPage: React.FC = () => {
             disabled={isLoginLoading}
           />
           <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">
-            Remember me
+            {t("auth.login.rememberMe")}
           </Label>
         </div>
         <Link to="#" className="text-sm text-secondary-success dark:text-secondary-accent hover:text-secondary-emphasis dark:hover:text-secondary-success">
-          Forgot Password?
+          {t("auth.login.forgotPassword")}
         </Link>
       </div>
 
@@ -95,10 +97,10 @@ export const LoginPage: React.FC = () => {
         {isLoginLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Logging in...
+            {t("common.loading")}
           </>
         ) : (
-          "Log In"
+          t("auth.login.signIn")
         )}
       </Button>
 
@@ -110,19 +112,19 @@ export const LoginPage: React.FC = () => {
         disabled={isLoginLoading}
       >
         <Chrome className="h-5 w-5" />
-        <span>Sign in with Google</span>
+        <span>{t("auth.login.signInWithGoogle")}</span>
       </Button>
     </form>
   );
 
   const footerLink = (
     <div className="text-center text-sm">
-      <span className="text-text-secondary dark:text-muted-foreground">Not registered yet? </span>
+      <span className="text-text-secondary dark:text-muted-foreground">{t("auth.login.noAccount")} </span>
       <Link
         to="/register"
         className="text-secondary-success dark:text-secondary-accent hover:text-secondary-emphasis dark:hover:text-secondary-success font-medium"
       >
-        Create an Account
+        {t("auth.login.signUp")}
       </Link>
     </div>
   );
@@ -130,8 +132,8 @@ export const LoginPage: React.FC = () => {
   return (
     <AuthLayout
       backgroundImageUrl="/login-page-image.jpg"
-      title="Welcome Back!"
-      description="Sign in to your Raya Health account and embark on your journey to holistic health."
+      title={t("auth.login.title")}
+      description={t("auth.login.subtitle")}
       formContent={formContent}
       footerLink={footerLink}
     />

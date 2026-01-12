@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/atoms/Button/Button";
 import { ArrowRight, CheckCircle2, Calendar } from "lucide-react";
 
@@ -28,7 +29,15 @@ export const MiniJourneyPreview: React.FC<MiniJourneyPreviewProps> = ({
   lastCompletedVisit,
   isUpcoming = true,
 }) => {
+  const { t } = useTranslation();
   const currentPhaseIndex = phaseOrder[currentPhase];
+  
+  const phaseTranslations: Record<keyof typeof phaseOrder, string> = {
+    "First Trimester": t("phases.firstTrimester"),
+    "Second Trimester": t("phases.secondTrimester"),
+    "Third Trimester": t("phases.thirdTrimester"),
+    Postpartum: t("phases.postpartum"),
+  };
 
   return (
     <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-100 dark:border-border overflow-hidden bg-gradient-to-br from-white via-primary-light/5 to-secondary-light/5 dark:from-card dark:via-primary/5 dark:to-secondary-success/5">
@@ -76,10 +85,10 @@ export const MiniJourneyPreview: React.FC<MiniJourneyPreviewProps> = ({
             })}
           </div>
           <div className="flex justify-between text-xs font-semibold text-text-secondary dark:text-muted-foreground">
-            <span>First</span>
-            <span>Second</span>
-            <span>Third</span>
-            <span>Postpartum</span>
+            <span>{phaseTranslations["First Trimester"]}</span>
+            <span>{phaseTranslations["Second Trimester"]}</span>
+            <span>{phaseTranslations["Third Trimester"]}</span>
+            <span>{phaseTranslations.Postpartum}</span>
           </div>
         </div>
 

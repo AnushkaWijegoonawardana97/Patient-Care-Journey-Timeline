@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Activity, Bone, Moon, Hand, Heart, Target } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { DashboardLayout } from "@/components/templates/DashboardLayout/DashboardLayout";
 import { AddOnServiceCard } from "@/components/molecules/AddOnServiceCard/AddOnServiceCard";
 import { LoadingSkeleton } from "@/components/molecules/LoadingSkeleton/LoadingSkeleton";
@@ -61,6 +62,7 @@ const FALLBACK_SERVICES: AddOnService[] = [
 ];
 
 export const AddOnServices: React.FC = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { services, isLoading, isError, refetch } = useAddOnServices();
 
@@ -70,7 +72,7 @@ export const AddOnServices: React.FC = () => {
   // Loading state
   if (isLoading) {
     return (
-      <DashboardLayout activeNavItem="Add-On Services" patientName={user?.name || "User"}>
+      <DashboardLayout activeNavItem="addOnServices" patientName={user?.name || "User"}>
         <LoadingSkeleton variant="services" count={6} />
       </DashboardLayout>
     );
@@ -79,10 +81,10 @@ export const AddOnServices: React.FC = () => {
   // Error state
   if (isError) {
     return (
-      <DashboardLayout activeNavItem="Add-On Services" patientName={user?.name || "User"}>
+      <DashboardLayout activeNavItem="addOnServices" patientName={user?.name || "User"}>
         <ErrorState
-          title="Unable to Load Services"
-          message="We couldn't load the add-on services. Please check your connection and try again."
+          title={t("addOnServices.unableToLoad")}
+          message={t("addOnServices.unableToLoadMessage")}
           onRetry={refetch}
         />
       </DashboardLayout>
@@ -90,7 +92,7 @@ export const AddOnServices: React.FC = () => {
   }
 
   return (
-    <DashboardLayout activeNavItem="Add-On Services" patientName={user?.name || "Sarah"}>
+    <DashboardLayout activeNavItem="addOnServices" patientName={user?.name || "Sarah"}>
       <div className="space-y-6 mt-6 lg:mt-8">
         {/* Header */}
         <div className="flex items-center gap-3 mb-2">
@@ -99,10 +101,10 @@ export const AddOnServices: React.FC = () => {
           </div>
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-text-primary dark:text-white">
-              Add-On Services
+              {t("addOnServices.title")}
             </h1>
             <p className="text-sm text-text-secondary dark:text-gray-400 mt-0.5">
-              Optional services to enhance your care journey
+              {t("addOnServices.subtitle")}
             </p>
           </div>
         </div>

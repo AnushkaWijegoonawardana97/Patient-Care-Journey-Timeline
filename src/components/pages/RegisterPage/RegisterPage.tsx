@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/atoms/Input/Input";
 import { Label } from "@/components/atoms/Label/Label";
@@ -9,6 +10,7 @@ import { AuthLayout } from "@/components/templates/AuthLayout/AuthLayout";
 import { useAuth } from "@/hooks/useAuth";
 
 export const RegisterPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { registerAsync, isRegisterLoading } = useAuth();
   const [name, setName] = React.useState("");
@@ -23,7 +25,7 @@ export const RegisterPage: React.FC = () => {
     setErrorMessage(null);
 
     if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
+      setErrorMessage(t("auth.register.passwordsDoNotMatch"));
       return;
     }
 
@@ -31,7 +33,7 @@ export const RegisterPage: React.FC = () => {
       await registerAsync({ name, email, password });
       navigate("/dashboard");
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Registration failed. Please try again.";
+      const message = error instanceof Error ? error.message : t("auth.register.registrationFailed");
       setErrorMessage(message);
     }
   };
@@ -47,11 +49,11 @@ export const RegisterPage: React.FC = () => {
 
       {/* Name Field */}
       <div className="space-y-2">
-        <Label htmlFor="name">Full Name</Label>
+        <Label htmlFor="name">{t("auth.register.fullName")}</Label>
         <Input
           id="name"
           type="text"
-          placeholder="John Doe"
+          placeholder={t("auth.register.namePlaceholder")}
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -61,11 +63,11 @@ export const RegisterPage: React.FC = () => {
 
       {/* Email Field */}
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t("auth.register.email")}</Label>
         <Input
           id="email"
           type="email"
-          placeholder="name@rayahealth.com"
+          placeholder={t("auth.register.emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -75,11 +77,11 @@ export const RegisterPage: React.FC = () => {
 
       {/* Password Field */}
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">{t("auth.register.password")}</Label>
         <Input
           id="password"
           type="password"
-          placeholder="at least 8 characters"
+          placeholder={t("auth.register.passwordPlaceholder")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -90,11 +92,11 @@ export const RegisterPage: React.FC = () => {
 
       {/* Confirm Password Field */}
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
+        <Label htmlFor="confirmPassword">{t("auth.register.confirmPassword")}</Label>
         <Input
           id="confirmPassword"
           type="password"
-          placeholder="re-enter your password"
+          placeholder={t("auth.register.passwordPlaceholder")}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
@@ -113,14 +115,7 @@ export const RegisterPage: React.FC = () => {
           disabled={isRegisterLoading}
         />
         <Label htmlFor="terms" className="text-sm font-normal cursor-pointer">
-          I agree to the{" "}
-          <Link to="#" className="text-secondary-success dark:text-secondary-accent hover:underline dark:hover:text-secondary-success">
-            Terms and Conditions
-          </Link>{" "}
-          and{" "}
-          <Link to="#" className="text-secondary-success dark:text-secondary-accent hover:underline dark:hover:text-secondary-success">
-            Privacy Policy
-          </Link>
+          {t("auth.register.acceptTerms")}
         </Label>
       </div>
 
@@ -129,10 +124,10 @@ export const RegisterPage: React.FC = () => {
         {isRegisterLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Creating account...
+            {t("common.loading")}
           </>
         ) : (
-          "Create Account"
+          t("auth.register.signUp")
         )}
       </Button>
 
@@ -144,16 +139,16 @@ export const RegisterPage: React.FC = () => {
         disabled={isRegisterLoading}
       >
         <Chrome className="h-5 w-5" />
-        <span>Sign up with Google</span>
+        <span>{t("auth.register.signUpWithGoogle")}</span>
       </Button>
     </form>
   );
 
   const footerLink = (
     <div className="text-center text-sm">
-      <span className="text-text-secondary dark:text-muted-foreground">Already have an account? </span>
+      <span className="text-text-secondary dark:text-muted-foreground">{t("auth.register.haveAccount")} </span>
       <Link to="/" className="text-secondary-success dark:text-secondary-accent hover:text-secondary-emphasis dark:hover:text-secondary-success font-medium">
-        Log In
+        {t("auth.register.signIn")}
       </Link>
     </div>
   );
@@ -161,8 +156,8 @@ export const RegisterPage: React.FC = () => {
   return (
     <AuthLayout
       backgroundImageUrl="/register-page-image.jpg"
-      title="Create Your Account"
-      description="Join Raya Health and start your journey to holistic wellness."
+      title={t("auth.register.title")}
+      description={t("auth.register.subtitle")}
       formContent={formContent}
       footerLink={footerLink}
     />

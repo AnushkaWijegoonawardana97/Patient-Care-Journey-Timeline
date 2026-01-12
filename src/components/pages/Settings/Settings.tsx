@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Settings as SettingsIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { DashboardLayout } from "@/components/templates/DashboardLayout/DashboardLayout";
 import { ProfileSummarySection } from "@/components/organisms/ProfileSummarySection/ProfileSummarySection";
 import { ThemeToggle } from "@/components/molecules/ThemeToggle/ThemeToggle";
@@ -7,11 +8,12 @@ import { LanguageToggle } from "@/components/molecules/LanguageToggle/LanguageTo
 import { useAuth } from "@/hooks/useAuth";
 
 export const Settings: React.FC = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const patientName = user?.name || "User";
 
   return (
-    <DashboardLayout activeNavItem="Settings" patientName={patientName}>
+    <DashboardLayout activeNavItem="settings" patientName={patientName}>
       <div className="space-y-6 lg:space-y-8 mt-6 lg:mt-8">
         {/* Minimal Page Header */}
         <div className="flex items-center gap-3 mb-2">
@@ -20,10 +22,10 @@ export const Settings: React.FC = () => {
           </div>
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-text-primary dark:text-white">
-              Settings
+              {t("settings.title")}
             </h1>
             <p className="text-sm text-text-secondary dark:text-gray-400 mt-0.5">
-              Manage your preferences and account
+              {t("settings.subtitle")}
             </p>
           </div>
         </div>
@@ -46,7 +48,7 @@ export const Settings: React.FC = () => {
             <div className="flex items-center gap-2 mb-8">
               <div className="w-1 h-5 bg-gradient-to-b from-primary to-primary-hover rounded-full" />
               <h2 className="text-lg font-semibold text-text-primary dark:text-white">
-                Preferences
+                {t("settings.preferences")}
               </h2>
             </div>
             <div className="space-y-8">

@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./style.css";
+import "./lib/i18n"; // Initialize i18n before rendering
 import App from "./App";
 
 const rootElement = document.querySelector<HTMLDivElement>("#app");

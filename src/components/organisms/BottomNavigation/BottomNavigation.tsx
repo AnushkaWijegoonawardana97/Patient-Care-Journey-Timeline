@@ -6,30 +6,32 @@ import {
   PlusCircle,
   Settings,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
 export interface BottomNavigationProps {
   activeNavItem?: string;
 }
 
-const navigationItems = [
-  { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
-  { icon: Calendar, label: "Care Journey", to: "/care-journey" },
-  { icon: PlusCircle, label: "Add-On", to: "/add-on-services" },
-  { icon: Settings, label: "Settings", to: "/settings" },
-];
-
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({
-  activeNavItem = "Dashboard",
+  activeNavItem,
 }) => {
+  const { t } = useTranslation();
   const location = useLocation();
+
+  const navigationItems = [
+    { icon: LayoutDashboard, label: t("navigation.dashboard"), to: "/dashboard", key: "dashboard" },
+    { icon: Calendar, label: t("navigation.careJourney"), to: "/care-journey", key: "careJourney" },
+    { icon: PlusCircle, label: t("navigation.addOn"), to: "/add-on-services", key: "addOnServices" },
+    { icon: Settings, label: t("navigation.settings"), to: "/settings", key: "settings" },
+  ];
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-card border-t border-gray-200 dark:border-border safe-area-bottom">
       <div className="flex items-center justify-around h-16">
         {navigationItems.map((item) => {
           const isActive =
-            activeNavItem === item.label || location.pathname === item.to;
+            activeNavItem === item.key || location.pathname === item.to;
           const Icon = item.icon;
 
           return (

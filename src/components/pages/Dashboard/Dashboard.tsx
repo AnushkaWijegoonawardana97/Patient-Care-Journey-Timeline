@@ -1,5 +1,6 @@
 import * as React from "react";
-import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
+import { formatDateLong, formatTime } from "@/utils/dateUtils";
 import { DashboardLayout } from "@/components/templates/DashboardLayout/DashboardLayout";
 import { WelcomeBanner } from "@/components/organisms/WelcomeBanner/WelcomeBanner";
 import { PatientProfile } from "@/components/organisms/PatientProfile/PatientProfile";
@@ -10,7 +11,7 @@ import { ErrorState } from "@/components/molecules/ErrorState/ErrorState";
 import { usePatientJourney } from "@/hooks/usePatientJourney";
 import { useAuth } from "@/hooks/useAuth";
 
-/** Get current phase based on week */
+/** Get current phase based on week - returns English key for internal use */
 function getCurrentPhase(
   week: number
 ): "First Trimester" | "Second Trimester" | "Third Trimester" | "Postpartum" {
@@ -21,6 +22,7 @@ function getCurrentPhase(
 }
 
 export const Dashboard: React.FC = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { journey, isLoading, isError, refetch } = usePatientJourney();
 
@@ -38,17 +40,17 @@ export const Dashboard: React.FC = () => {
     const nextScheduledVisit = visits.find((v) => v.status === "scheduled");
     const nextVisit = nextScheduledVisit?.scheduledDate
       ? {
-          date: format(new Date(nextScheduledVisit.scheduledDate), "MMMM d, yyyy"),
-          time: format(new Date(nextScheduledVisit.scheduledDate), "h:mm a"),
-          type: nextScheduledVisit.type === "prenatal_postpartum" ? "Prenatal Visit" : "Check-up",
+          date: formatDateLong(nextScheduledVisit.scheduledDate),
+          time: formatTime(nextScheduledVisit.scheduledDate),
+          type: nextScheduledVisit.type === "prenatal_postpartum" ? t("dashboard.checkUp") : t("dashboard.checkUp"),
         }
       : null;
 
     // Determine journey status
     const missedVisits = visits.filter((v) => v.status === "missed").length;
     const journeyStatus = {
-      status: missedVisits > 0 ? "Needs Attention" : "On Track",
-      message: missedVisits > 0 ? `${missedVisits} missed visit(s)` : "All appointments scheduled",
+      status: missedVisits > 0 ? t("dashboard.needsAttention") : t("dashboard.onTrack"),
+      message: missedVisits > 0 ? t("dashboard.missedVisits", { count: missedVisits }) : t("dashboard.allAppointmentsScheduled"),
     };
 
     // Get upcoming milestone - compare dates at start of day to avoid timezone issues
@@ -85,22 +87,22 @@ export const Dashboard: React.FC = () => {
       visitProgress: { completed: completedVisits, total: totalVisits },
       nextVisit,
       journeyStatus,
-      upcomingMilestone: upcomingMilestone?.title || "No milestones available",
+      upcomingMilestone: upcomingMilestone?.title || t("dashboard.noMilestonesAvailable"),
       milestoneDate: upcomingMilestone
-        ? format(new Date(upcomingMilestone.date), "MMMM d, yyyy")
+        ? formatDateLong(upcomingMilestone.date)
         : undefined,
       isUpcoming: upcomingMilestones.length > 0,
       lastCompletedVisit: lastCompletedVisit
         ? {
-            date: format(new Date(lastCompletedVisit.completedDate!), "MMMM d, yyyy"),
+            date: formatDateLong(lastCompletedVisit.completedDate!),
             type:
               lastCompletedVisit.type === "prenatal_postpartum"
-                ? `Prenatal Visit ${lastCompletedVisit.visitNumber}`
+                ? t("visits.types.prenatalPostpartumWithNumber", { number: lastCompletedVisit.visitNumber, total: lastCompletedVisit.totalOfType || 8 })
                 : lastCompletedVisit.type === "initial"
-                ? "Initial Consultation"
+                ? t("visits.types.initial")
                 : lastCompletedVisit.type === "labor_delivery"
-                ? "Labor & Delivery"
-                : "Visit",
+                ? t("visits.types.laborDelivery")
+                : t("dashboard.checkUp"),
           }
         : undefined,
     };
@@ -109,7 +111,7 @@ export const Dashboard: React.FC = () => {
   // Loading state
   if (isLoading) {
     return (
-      <DashboardLayout activeNavItem="Dashboard" patientName="Loading...">
+      <DashboardLayout activeNavItem="dashboard" patientName={t("common.loading")}>
         <LoadingSkeleton variant="dashboard" />
       </DashboardLayout>
     );
@@ -118,10 +120,10 @@ export const Dashboard: React.FC = () => {
   // Error state
   if (isError) {
     return (
-      <DashboardLayout activeNavItem="Dashboard" patientName={user?.name || "User"}>
+      <DashboardLayout activeNavItem="dashboard" patientName={user?.name || "User"}>
         <ErrorState
-          title="Unable to Load Dashboard"
-          message="We couldn't load your dashboard data. Please check your connection and try again."
+          title={t("errors.unableToLoad")}
+          message={t("errors.genericMessage")}
           onRetry={refetch}
         />
       </DashboardLayout>
@@ -130,27 +132,26 @@ export const Dashboard: React.FC = () => {
 
   // Use API data or fallback to defaults
   const patientName = dashboardData?.patientName || user?.name || "User";
-  const phase = dashboardData?.phase || ("Second Trimester" as const);
-  const promptMessage =
-    "You have upcoming appointments and milestones. How would you like to continue your care journey today?";
+  const phase = dashboardData?.phase || "Second Trimester";
+  const promptMessage = t("dashboard.promptMessage");
 
   const visitProgress = dashboardData?.visitProgress || { completed: 0, total: 0 };
   const nextVisit = dashboardData?.nextVisit || {
-    date: "Not scheduled",
+    date: t("common.loading"),
     time: "",
-    type: "Prenatal Visit",
+    type: t("dashboard.checkUp"),
   };
   const journeyStatus = dashboardData?.journeyStatus || {
-    status: "On Track",
-    message: "All appointments scheduled",
+    status: t("dashboard.onTrack"),
+    message: t("dashboard.allAppointmentsScheduled"),
   };
-  const upcomingMilestone = dashboardData?.upcomingMilestone || "No milestones available";
+  const upcomingMilestone = dashboardData?.upcomingMilestone || t("dashboard.noMilestonesAvailable");
   const milestoneDate = dashboardData?.milestoneDate;
   const lastCompletedVisit = dashboardData?.lastCompletedVisit;
   const isUpcoming = dashboardData?.isUpcoming ?? true;
 
   return (
-    <DashboardLayout activeNavItem="Dashboard" patientName={patientName}>
+    <DashboardLayout activeNavItem="dashboard" patientName={patientName}>
       <div className="space-y-4 lg:space-y-6 mt-6 lg:mt-8">
         {/* Welcome Banner and Patient Profile Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 items-stretch">
@@ -159,9 +160,9 @@ export const Dashboard: React.FC = () => {
             <WelcomeBanner
               patientName={patientName}
               promptMessage={promptMessage}
-              primaryActionLabel="View Care Journey"
+              primaryActionLabel={t("dashboard.viewCareJourney")}
               primaryActionTo="/care-journey"
-              secondaryActionLabel="View Progress"
+              secondaryActionLabel={t("dashboard.viewProgress")}
               secondaryActionTo="/care-journey"
               imageUrl="/login-page-image.jpg"
             />

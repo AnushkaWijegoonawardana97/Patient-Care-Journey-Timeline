@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Activity } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { DashboardLayout } from "@/components/templates/DashboardLayout/DashboardLayout";
 import { JourneyStatusHeader } from "@/components/organisms/JourneyStatusHeader/JourneyStatusHeader";
 import { TimelineContainer } from "@/components/organisms/TimelineContainer/TimelineContainer";
@@ -11,6 +12,7 @@ import { usePatientJourney } from "@/hooks/usePatientJourney";
 import type { Visit } from "@/types/journey";
 
 export const CareJourney: React.FC = () => {
+  const { t } = useTranslation();
   const { journey, isLoading, isError, refetch } = usePatientJourney();
   const [selectedVisit, setSelectedVisit] = React.useState<Visit | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -28,7 +30,7 @@ export const CareJourney: React.FC = () => {
   // Loading state
   if (isLoading) {
     return (
-      <DashboardLayout activeNavItem="Care Journey" patientName="Loading...">
+      <DashboardLayout activeNavItem="careJourney" patientName={t("common.loading")}>
         <LoadingSkeleton variant="journey" />
       </DashboardLayout>
     );
@@ -37,10 +39,10 @@ export const CareJourney: React.FC = () => {
   // Error state
   if (isError) {
     return (
-      <DashboardLayout activeNavItem="Care Journey" patientName="User">
+      <DashboardLayout activeNavItem="careJourney" patientName="User">
         <ErrorState
-          title="Unable to Load Journey"
-          message="We couldn't load your care journey data. Please check your connection and try again."
+          title={t("careJourney.unableToLoad")}
+          message={t("careJourney.unableToLoadMessage")}
           onRetry={refetch}
         />
       </DashboardLayout>
@@ -50,18 +52,18 @@ export const CareJourney: React.FC = () => {
   // Empty state
   if (!journey) {
     return (
-      <DashboardLayout activeNavItem="Care Journey" patientName="User">
+      <DashboardLayout activeNavItem="careJourney" patientName="User">
         <EmptyState
           icon={Activity}
-          title="No Journey Data"
-          message="Your care journey hasn't been set up yet. Please contact your care team for assistance."
+          title={t("careJourney.noJourneyData")}
+          message={t("careJourney.noJourneyDataMessage")}
         />
       </DashboardLayout>
     );
   }
 
   return (
-    <DashboardLayout activeNavItem="Care Journey" patientName={journey.patient.name}>
+    <DashboardLayout activeNavItem="careJourney" patientName={journey.patient.name}>
       <div className="space-y-4 lg:space-y-6 mt-6 lg:mt-8">
         <JourneyStatusHeader patient={journey.patient} visits={journey.visits} />
         <TimelineContainer

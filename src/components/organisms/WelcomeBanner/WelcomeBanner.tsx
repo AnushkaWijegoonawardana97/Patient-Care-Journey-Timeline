@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/atoms/Button/Button";
 import { ArrowRight } from "lucide-react";
 
@@ -15,13 +16,14 @@ export interface WelcomeBannerProps {
 
 export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
   patientName,
-  promptMessage = "How would you like to continue your care journey today?",
-  primaryActionLabel = "View Care Journey",
+  promptMessage,
+  primaryActionLabel,
   primaryActionTo = "/care-journey",
-  secondaryActionLabel = "View Progress",
+  secondaryActionLabel,
   secondaryActionTo = "/care-journey",
   imageUrl,
 }) => {
+  const { t } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   const images = imageUrl ? [imageUrl] : [];
 
@@ -97,7 +99,9 @@ export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({
                   <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-secondary-success flex items-center justify-center shadow-lg">
                     <ArrowRight className="h-8 w-8 text-white rotate-[-45deg]" />
                   </div>
-                  <p className="text-sm font-medium text-text-primary dark:text-card-foreground">Care Journey</p>
+                  <p className="text-sm font-medium text-text-primary dark:text-card-foreground">
+                    {t("navigation.careJourney")}
+                  </p>
                 </div>
               </div>
             )}

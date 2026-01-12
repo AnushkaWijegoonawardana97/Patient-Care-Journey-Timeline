@@ -1,5 +1,6 @@
 import * as React from "react";
 import { AlertCircle, RefreshCw } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/atoms/Button/Button";
 import { cn } from "@/lib/utils";
 
@@ -12,12 +13,16 @@ export interface ErrorStateProps {
 }
 
 export const ErrorState: React.FC<ErrorStateProps> = ({
-  title = "Something went wrong",
-  message = "We couldn't load the data. Please check your connection and try again.",
+  title,
+  message,
   onRetry,
-  retryLabel = "Try Again",
+  retryLabel,
   className,
 }) => {
+  const { t } = useTranslation();
+  const displayTitle = title || t("errors.generic");
+  const displayMessage = message || t("errors.genericMessage");
+  const displayRetryLabel = retryLabel || t("common.buttons.tryAgain");
   return (
     <div
       className={cn(
@@ -29,13 +34,13 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
       </div>
       <h2 className="text-xl font-bold text-text-primary dark:text-card-foreground mb-2 text-center">
-        {title}
+        {displayTitle}
       </h2>
-      <p className="text-text-secondary dark:text-muted-foreground text-center mb-6 max-w-md">{message}</p>
+      <p className="text-text-secondary dark:text-muted-foreground text-center mb-6 max-w-md">{displayMessage}</p>
       {onRetry && (
         <Button onClick={onRetry} className="flex items-center gap-2">
           <RefreshCw className="w-4 h-4" />
-          {retryLabel}
+          {displayRetryLabel}
         </Button>
       )}
     </div>
