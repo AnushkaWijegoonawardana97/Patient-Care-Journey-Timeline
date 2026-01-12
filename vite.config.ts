@@ -1,17 +1,18 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
     emptyOutDir: true,
-    // Handle Windows file lock issues
+    // Ensure public directory files are copied (including mockServiceWorker.js)
+    copyPublicDir: true,
     rollupOptions: {
       output: {
         // Prevent file locking issues on Windows
@@ -19,6 +20,8 @@ export default defineConfig({
       },
     },
   },
+  // Ensure public directory is included
+  publicDir: "public",
   // Better handling of file system operations on Windows
   server: {
     fs: {
