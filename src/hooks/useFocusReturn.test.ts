@@ -29,9 +29,11 @@ describe('useFocusReturn', () => {
 
   it('should store reference to trigger element', () => {
     triggerButton.focus();
-    const returnElementRef = useRef<HTMLButtonElement>(returnButton);
     
-    renderHook(() => useFocusReturn(true, returnElementRef));
+    const { result } = renderHook(() => {
+      const returnElementRef = useRef<HTMLButtonElement>(returnButton);
+      return useFocusReturn(true, returnElementRef);
+    });
 
     // Trigger element should be stored
     expect(document.activeElement).toBe(triggerButton);
@@ -40,10 +42,12 @@ describe('useFocusReturn', () => {
   it('should return focus to trigger element when overlay closes', () => {
     triggerButton.focus();
     const previousElement = document.activeElement;
-    const returnElementRef = useRef<HTMLButtonElement>(null);
 
     const { rerender } = renderHook(
-      ({ isActive }) => useFocusReturn(isActive, returnElementRef),
+      ({ isActive }) => {
+        const returnElementRef = useRef<HTMLButtonElement>(null);
+        return useFocusReturn(isActive, returnElementRef);
+      },
       {
         initialProps: { isActive: true },
       }
@@ -61,11 +65,13 @@ describe('useFocusReturn', () => {
   });
 
   it('should return focus to returnElementRef when provided', () => {
-    const returnElementRef = useRef<HTMLButtonElement>(returnButton);
     triggerButton.focus();
 
     const { rerender } = renderHook(
-      ({ isActive }) => useFocusReturn(isActive, returnElementRef),
+      ({ isActive }) => {
+        const returnElementRef = useRef<HTMLButtonElement>(returnButton);
+        return useFocusReturn(isActive, returnElementRef);
+      },
       {
         initialProps: { isActive: true },
       }
@@ -83,13 +89,14 @@ describe('useFocusReturn', () => {
   });
 
   it('should handle missing trigger element gracefully', () => {
-    const returnElementRef = useRef<HTMLButtonElement>(null);
-    
     // No element is focused initially
     expect(document.activeElement).toBe(document.body);
 
     const { rerender } = renderHook(
-      ({ isActive }) => useFocusReturn(isActive, returnElementRef),
+      ({ isActive }) => {
+        const returnElementRef = useRef<HTMLButtonElement>(null);
+        return useFocusReturn(isActive, returnElementRef);
+      },
       {
         initialProps: { isActive: true },
       }
@@ -107,9 +114,11 @@ describe('useFocusReturn', () => {
 
   it('should clean up on unmount', () => {
     triggerButton.focus();
-    const returnElementRef = useRef<HTMLButtonElement>(null);
 
-    const { unmount } = renderHook(() => useFocusReturn(true, returnElementRef));
+    const { unmount } = renderHook(() => {
+      const returnElementRef = useRef<HTMLButtonElement>(null);
+      return useFocusReturn(true, returnElementRef);
+    });
 
     // Should not throw on unmount
     expect(() => {
@@ -118,13 +127,13 @@ describe('useFocusReturn', () => {
   });
 
   it('should work with multiple overlays', () => {
-    const returnElementRef1 = useRef<HTMLButtonElement>(returnButton);
-    const returnElementRef2 = useRef<HTMLButtonElement>(otherButton);
-
     triggerButton.focus();
 
     const { rerender: rerender1 } = renderHook(
-      ({ isActive }) => useFocusReturn(isActive, returnElementRef1),
+      ({ isActive }) => {
+        const returnElementRef1 = useRef<HTMLButtonElement>(returnButton);
+        return useFocusReturn(isActive, returnElementRef1);
+      },
       {
         initialProps: { isActive: true },
       }
@@ -139,7 +148,10 @@ describe('useFocusReturn', () => {
     // Second overlay
     returnButton.focus();
     const { rerender: rerender2 } = renderHook(
-      ({ isActive }) => useFocusReturn(isActive, returnElementRef2),
+      ({ isActive }) => {
+        const returnElementRef2 = useRef<HTMLButtonElement>(otherButton);
+        return useFocusReturn(isActive, returnElementRef2);
+      },
       {
         initialProps: { isActive: true },
       }
@@ -154,10 +166,12 @@ describe('useFocusReturn', () => {
 
   it('should not return focus when overlay is still active', () => {
     triggerButton.focus();
-    const returnElementRef = useRef<HTMLButtonElement>(returnButton);
 
     const { rerender } = renderHook(
-      ({ isActive }) => useFocusReturn(isActive, returnElementRef),
+      ({ isActive }) => {
+        const returnElementRef = useRef<HTMLButtonElement>(returnButton);
+        return useFocusReturn(isActive, returnElementRef);
+      },
       {
         initialProps: { isActive: true },
       }

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -176,6 +177,9 @@ describe('useAuth', () => {
   });
 
   it('should handle error states for login mutation', async () => {
+    // Suppress console.error for this test since we're intentionally testing error states
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
     const loginRequest: LoginRequest = {
       email: 'test@example.com',
       password: 'password123',
@@ -192,9 +196,14 @@ describe('useAuth', () => {
     await waitFor(() => {
       expect(result.current.loginError).toBe(mockError);
     });
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('should handle error states for register mutation', async () => {
+    // Suppress console.error for this test since we're intentionally testing error states
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
     const registerRequest: RegisterRequest = {
       email: 'test@example.com',
       password: 'password123',
@@ -212,6 +221,8 @@ describe('useAuth', () => {
     await waitFor(() => {
       expect(result.current.registerError).toBe(mockError);
     });
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('should provide loginAsync function', async () => {

@@ -24,7 +24,7 @@ describe('SummaryCard', () => {
   });
 
   it('should render icon when provided', () => {
-    render(
+    const { container } = render(
       <SummaryCard
         title="Total Visits"
         value="8"
@@ -32,9 +32,10 @@ describe('SummaryCard', () => {
       />
     );
     
-    // Icon should be rendered as SVG
-    const icon = screen.getByRole('img', { hidden: true }) || document.querySelector('svg');
+    // Icon should be rendered as SVG (aria-hidden, not img role)
+    const icon = container.querySelector('svg');
     expect(icon).toBeInTheDocument();
+    expect(icon).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('should handle string values', () => {

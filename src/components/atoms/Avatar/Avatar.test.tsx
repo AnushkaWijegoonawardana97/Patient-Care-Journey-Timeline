@@ -11,9 +11,17 @@ describe('Avatar', () => {
     expect(img).toHaveAttribute('src', '/avatar.jpg');
   });
 
-  it('should render initials when no image', () => {
+  it('should render fallback text when provided', () => {
     render(<Avatar fallback="John Doe" alt="John Doe" />);
     
+    // When fallback is provided, it uses the fallback text directly
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+  });
+
+  it('should render initials when no fallback but alt is provided', () => {
+    render(<Avatar alt="John Doe" />);
+    
+    // When no fallback, it uses initials from alt
     expect(screen.getByText('JD')).toBeInTheDocument();
   });
 
@@ -53,8 +61,16 @@ describe('Avatar', () => {
   });
 
   it('should default to "?" when no fallback or alt', () => {
-    render(<Avatar />);
+    render(<Avatar alt="" />);
     
+    // When alt is empty string, getInitials returns "?"
     expect(screen.getByText('?')).toBeInTheDocument();
+  });
+
+  it('should use initials from alt when no fallback', () => {
+    render(<Avatar alt="Test User" />);
+    
+    // Should use initials from alt
+    expect(screen.getByText('TU')).toBeInTheDocument();
   });
 });

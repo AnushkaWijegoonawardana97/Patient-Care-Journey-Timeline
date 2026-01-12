@@ -1,6 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { formatStatusLabel, getVisitTitle, getStatusIcon, getStatusBadgeStyles } from './visit.utils';
 import type { Visit, VisitStatus } from '@/types/journey';
+import {
+  CheckCircle2,
+  Calendar,
+  Circle,
+  AlertCircle,
+  X,
+} from 'lucide-react';
 import * as i18n from '@/lib/i18n';
 
 // Mock i18n
@@ -167,37 +174,37 @@ describe('visit.utils', () => {
     it('should return CheckCircle2 icon for completed status', () => {
       const Icon = getStatusIcon('completed');
       expect(Icon).toBeDefined();
-      expect(typeof Icon).toBe('function');
+      expect(Icon).toBe(CheckCircle2);
     });
 
     it('should return Calendar icon for scheduled status', () => {
       const Icon = getStatusIcon('scheduled');
       expect(Icon).toBeDefined();
-      expect(typeof Icon).toBe('function');
+      expect(Icon).toBe(Calendar);
     });
 
     it('should return Circle icon for available status', () => {
       const Icon = getStatusIcon('available');
       expect(Icon).toBeDefined();
-      expect(typeof Icon).toBe('function');
+      expect(Icon).toBe(Circle);
     });
 
     it('should return AlertCircle icon for missed status', () => {
       const Icon = getStatusIcon('missed');
       expect(Icon).toBeDefined();
-      expect(typeof Icon).toBe('function');
+      expect(Icon).toBe(AlertCircle);
     });
 
     it('should return X icon for cancelled status', () => {
       const Icon = getStatusIcon('cancelled');
       expect(Icon).toBeDefined();
-      expect(typeof Icon).toBe('function');
+      expect(Icon).toBe(X);
     });
 
     it('should return Circle icon for unknown status', () => {
       const Icon = getStatusIcon('unknown' as VisitStatus);
       expect(Icon).toBeDefined();
-      expect(typeof Icon).toBe('function');
+      expect(Icon).toBe(Circle);
     });
   });
 

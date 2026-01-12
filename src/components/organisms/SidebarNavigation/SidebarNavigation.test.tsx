@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -10,19 +11,27 @@ vi.mock('@/hooks/useFocusTrap', () => ({
 }));
 
 // Mock react-i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        'navigation.dashboard': 'Dashboard',
-        'navigation.careJourney': 'Care Journey',
-        'navigation.addOnServices': 'Add-On Services',
-        'navigation.settings': 'Settings',
-      };
-      return translations[key] || key;
-    },
-  }),
-}));
+vi.mock('react-i18next', async () => {
+  const actual = await vi.importActual<typeof import('react-i18next')>('react-i18next');
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          'navigation.dashboard': 'Dashboard',
+          'navigation.careJourney': 'Care Journey',
+          'navigation.addOnServices': 'Add-On Services',
+          'navigation.settings': 'Settings',
+        };
+        return translations[key] || key;
+      },
+      i18n: {
+        changeLanguage: vi.fn(),
+        language: 'en',
+      },
+    }),
+  };
+});
 
 const renderWithRouter = (component: React.ReactElement) => {
   return render(<BrowserRouter>{component}</BrowserRouter>);

@@ -57,12 +57,14 @@ describe('NavigationItem', () => {
     expect(link).toHaveAttribute('aria-current', 'page');
   });
 
-  it('should not have aria-current when inactive', () => {
+  it('should not have aria-current when inactive and location does not match', () => {
     renderWithRouter(
-      <NavigationItem icon={LayoutDashboard} label="Dashboard" to="/dashboard" active={false} />
+      <NavigationItem icon={LayoutDashboard} label="Dashboard" to="/dashboard" active={false} />,
+      ['/other-route'] // Use different route so location doesn't match
     );
 
     const link = screen.getByRole('link');
+    // When active={false} and location doesn't match, should not have aria-current
     expect(link).not.toHaveAttribute('aria-current');
   });
 

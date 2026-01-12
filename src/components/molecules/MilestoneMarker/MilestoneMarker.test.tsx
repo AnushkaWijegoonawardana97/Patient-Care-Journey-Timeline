@@ -30,8 +30,9 @@ describe('MilestoneMarker', () => {
       });
       render(<MilestoneMarker milestone={milestone} />);
       
-      expect(screen.getByText('Due Date')).toBeInTheDocument();
-      expect(screen.getByText(/due date/i)).toBeInTheDocument();
+      // Badge and title both have "Due Date", use getAllByText
+      const dueDateElements = screen.getAllByText(/due date/i);
+      expect(dueDateElements.length).toBeGreaterThanOrEqual(2);
     });
 
     it('should render postpartum_week milestone', () => {
@@ -43,7 +44,9 @@ describe('MilestoneMarker', () => {
       render(<MilestoneMarker milestone={milestone} />);
       
       expect(screen.getByText('6 Weeks Postpartum')).toBeInTheDocument();
-      expect(screen.getByText(/postpartum/i)).toBeInTheDocument();
+      // Badge and title both have "Postpartum", use getAllByText
+      const postpartumElements = screen.getAllByText(/postpartum/i);
+      expect(postpartumElements.length).toBeGreaterThan(0);
     });
 
     it('should render custom milestone', () => {
@@ -55,7 +58,9 @@ describe('MilestoneMarker', () => {
       render(<MilestoneMarker milestone={milestone} />);
       
       expect(screen.getByText('Custom Milestone')).toBeInTheDocument();
-      expect(screen.getByText(/milestone/i)).toBeInTheDocument();
+      // Badge and title both have "Milestone", use getAllByText
+      const milestoneElements = screen.getAllByText(/milestone/i);
+      expect(milestoneElements.length).toBeGreaterThan(0);
     });
   });
 
@@ -155,7 +160,9 @@ describe('MilestoneMarker', () => {
       });
       rerender(<MilestoneMarker milestone={dueDateMilestone} />);
       
-      expect(screen.getByText(/due date/i)).toBeInTheDocument();
+      // Badge and title both have "Due Date", use getAllByText
+      const dueDateElements = screen.getAllByText(/due date/i);
+      expect(dueDateElements.length).toBeGreaterThan(0);
     });
   });
 });

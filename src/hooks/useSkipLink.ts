@@ -29,7 +29,9 @@ export const useSkipLink = (targetId: string): {
       }, 100);
 
       // Scroll into view if needed
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (typeof targetElement.scrollIntoView === 'function') {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 

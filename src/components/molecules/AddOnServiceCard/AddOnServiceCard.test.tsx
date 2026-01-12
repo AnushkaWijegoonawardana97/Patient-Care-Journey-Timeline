@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -15,7 +16,7 @@ describe('AddOnServiceCard', () => {
     name: 'Lactation Support',
     description: 'Professional lactation consultation',
     imageUrl: '/lactation.jpg',
-    status: 'available',
+    status: 'optional_addon',
     icon: () => <svg data-testid="service-icon" />,
   };
 
@@ -46,7 +47,7 @@ describe('AddOnServiceCard', () => {
     expect(img).toHaveAttribute('src', '/login-page-image.jpg');
   });
 
-  it('should show "Optional Add-On" status for available services', () => {
+  it('should show "Optional Add-On" status for optional_addon services', () => {
     render(<AddOnServiceCard service={mockService} />);
     
     expect(screen.getByText('Optional Add-On')).toBeInTheDocument();

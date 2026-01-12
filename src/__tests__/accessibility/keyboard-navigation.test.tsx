@@ -1,6 +1,8 @@
+import * as React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 import { BottomNavigation } from '@/components/organisms/BottomNavigation/BottomNavigation';
 import { VisitCard } from '@/components/molecules/VisitCard/VisitCard';
 import type { Visit } from '@/types/journey';
@@ -8,7 +10,11 @@ import type { Visit } from '@/types/journey';
 describe('Keyboard Navigation', () => {
   it('should navigate through navigation items with Tab', async () => {
     const user = userEvent.setup();
-    render(<BottomNavigation activeNavItem="dashboard" />);
+    render(
+      <BrowserRouter>
+        <BottomNavigation activeNavItem="dashboard" />
+      </BrowserRouter>
+    );
     
     const links = screen.getAllByRole('link');
     expect(links.length).toBeGreaterThan(0);
@@ -22,7 +28,11 @@ describe('Keyboard Navigation', () => {
 
   it('should activate links with Enter key', async () => {
     const user = userEvent.setup();
-    render(<BottomNavigation activeNavItem="dashboard" />);
+    render(
+      <BrowserRouter>
+        <BottomNavigation activeNavItem="dashboard" />
+      </BrowserRouter>
+    );
     
     const firstLink = screen.getAllByRole('link')[0];
     firstLink.focus();

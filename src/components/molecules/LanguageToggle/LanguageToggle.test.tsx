@@ -12,18 +12,27 @@ vi.mock('@/lib/i18n', () => ({
 }));
 
 // Mock react-i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        'common.english': 'English',
-        'common.spanish': 'Spanish',
-        'common.changeLanguage': 'Change Language',
-      };
-      return translations[key] || key;
-    },
-  }),
-}));
+vi.mock('react-i18next', async () => {
+  const actual = await vi.importActual<typeof import('react-i18next')>('react-i18next');
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          'common.language': 'Language',
+          'common.english': 'English',
+          'common.spanish': 'Spanish',
+          'common.changeLanguage': 'Change Language',
+        };
+        return translations[key] || key;
+      },
+      i18n: {
+        changeLanguage: vi.fn(),
+        language: 'en',
+      },
+    }),
+  };
+});
 
 describe('LanguageToggle', () => {
   beforeEach(() => {

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AddOnServices } from './AddOnServices';
 import * as useAddOnServices from '@/hooks/useAddOnServices';
 import * as useAuth from '@/hooks/useAuth';
@@ -11,19 +12,27 @@ vi.mock('@/hooks/useAddOnServices');
 vi.mock('@/hooks/useAuth');
 
 // Mock react-i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        'addOnServices.title': 'Add-On Services',
-        'addOnServices.subtitle': 'Enhance your care journey',
-        'addOnServices.unableToLoad': 'Unable to load services',
-        'addOnServices.unableToLoadMessage': 'Please try again later',
-      };
-      return translations[key] || key;
-    },
-  }),
-}));
+vi.mock('react-i18next', async () => {
+  const actual = await vi.importActual<typeof import('react-i18next')>('react-i18next');
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          'addOnServices.title': 'Add-On Services',
+          'addOnServices.subtitle': 'Enhance your care journey',
+          'addOnServices.unableToLoad': 'Unable to load services',
+          'addOnServices.unableToLoadMessage': 'Please try again later',
+        };
+        return translations[key] || key;
+      },
+      i18n: {
+        changeLanguage: vi.fn(),
+        language: 'en',
+      },
+    }),
+  };
+});
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -33,7 +42,9 @@ const createWrapper = () => {
   });
   return ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>{children}</BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>{children}</BrowserRouter>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
