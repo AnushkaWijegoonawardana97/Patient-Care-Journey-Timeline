@@ -10,16 +10,15 @@ if (!rootElement) {
   throw new Error("Root element not found");
 }
 
-/** Initialize MSW in development mode */
+/** Initialize MSW for demo purposes (enabled in all environments) */
 async function enableMocking(): Promise<void> {
-  if (import.meta.env.MODE !== "development") {
-    return;
-  }
-
   const { worker } = await import("./mocks/browser");
 
   await worker.start({
     onUnhandledRequest: "bypass",
+    serviceWorker: {
+      url: "/mockServiceWorker.js",
+    },
   });
 }
 
