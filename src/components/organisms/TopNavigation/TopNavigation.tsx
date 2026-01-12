@@ -65,7 +65,7 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
         </div>
 
         {/* Center Navigation */}
-        <nav className="hidden md:flex items-center gap-1 bg-white dark:bg-card rounded-lg px-2 py-1">
+        <nav id="navigation" className="hidden md:flex items-center gap-1 bg-white dark:bg-card rounded-lg px-2 py-1" aria-label="Main navigation">
           {navigationItems.map((item) => {
             const isActive = activeNavItem === item.key || location.pathname === item.to;
             const Icon = item.icon;
@@ -80,8 +80,9 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
                     ? "bg-secondary-success text-white dark:bg-secondary-success dark:text-white"
                     : "text-text-secondary dark:text-muted-foreground hover:bg-gray-100 dark:hover:bg-muted hover:text-text-primary dark:hover:text-card-foreground"
                 )}
+                aria-current={isActive ? "page" : undefined}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4" aria-hidden="true" />
                 <span>{item.label}</span>
               </Link>
             );
@@ -96,6 +97,8 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
               onClick={() => setShowLanguageMenu(!showLanguageMenu)}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-muted transition-colors"
               aria-label={t("common.changeLanguage")}
+              aria-expanded={showLanguageMenu}
+              aria-haspopup="true"
               title={t("common.language")}
             >
               <Globe className="h-5 w-5 text-text-secondary dark:text-muted-foreground" />
@@ -147,6 +150,9 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex items-center gap-3 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-muted transition-colors"
+              aria-expanded={showUserMenu}
+              aria-haspopup="true"
+              aria-label={`${patientName} menu`}
             >
               <Avatar
                 src="/patient-avatar.jpg"

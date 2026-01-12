@@ -26,6 +26,9 @@ dist-ssr
 # Instructions folder (not pushed to GitHub)
 instructions/
 
+# Documentation (not pushed to GitHub for now)
+docs/
+
 # Testing
 coverage
 .nyc_output

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { SkipLink } from "@/components/atoms/SkipLink/SkipLink";
 
 export interface AuthLayoutProps {
   /** Background image URL for mobile view */
@@ -22,6 +23,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
 }) => {
   return (
     <div className="h-screen flex flex-col lg:flex-row overflow-hidden bg-white dark:bg-background lg:bg-white dark:lg:bg-background bg-cover bg-center bg-no-repeat lg:bg-none">
+      <SkipLink href="#main-content">Skip to main content</SkipLink>
       {/* Mobile Background Image */}
       <div
         className="lg:hidden fixed inset-0 z-0"
@@ -33,7 +35,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         }}
       />
       {/* Left side - Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-12 py-8 lg:py-0 overflow-y-auto relative z-10 lg:z-auto">
+      <main id="main-content" className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-12 py-8 lg:py-0 overflow-y-auto relative z-10 lg:z-auto" role="main">
         <div className="w-full max-w-md space-y-6 lg:space-y-8 bg-white dark:bg-background rounded-lg p-6 lg:p-0 shadow-lg lg:shadow-none">
           {/* Logo */}
           <div className="flex items-center">
@@ -61,7 +63,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
             ©2024 Raya Health. All rights reserved.
           </p>
         </div>
-      </div>
+      </main>
 
       {/* Right side - Promotional Image (Desktop only) */}
       <div className="hidden lg:flex lg:flex-1 relative overflow-hidden">

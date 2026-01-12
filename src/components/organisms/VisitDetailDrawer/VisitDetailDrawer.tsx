@@ -8,6 +8,7 @@ import { VisitInfoItem } from "@/components/molecules/VisitInfoItem/VisitInfoIte
 import { getVisitTitle } from "@/utils/visit.utils";
 import { VISIT_STATUS_CONFIG } from "@/utils/visit.constants";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export interface VisitDetailDrawerProps {
   visit: Visit | null;
@@ -16,6 +17,9 @@ export interface VisitDetailDrawerProps {
 }
 
 export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isOpen, onClose }) => {
+  const drawerRef = React.useRef<HTMLDivElement>(null);
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+
   const statusConfig = React.useMemo(() => {
     if (!visit) return null;
     return VISIT_STATUS_CONFIG[visit.status];
@@ -25,6 +29,35 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
     if (!visit) return "";
     return getVisitTitle(visit);
   }, [visit]);
+
+  // Focus trap
+  useFocusTrap(isOpen, drawerRef);
+
+  // Escape key handler
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  // Focus initial element when drawer opens
+  React.useEffect(() => {
+    if (isOpen && closeButtonRef.current) {
+      // Small delay to ensure drawer is fully rendered
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -47,6 +80,7 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
         aria-hidden="true"
       />
       <div
+        ref={drawerRef}
         className={cn(
           "fixed inset-y-0 right-0 w-full max-w-2xl bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out",
           "lg:translate-x-0",
@@ -75,6 +109,7 @@ export const VisitDetailDrawer: React.FC<VisitDetailDrawerProps> = ({ visit, isO
 
               {/* Close Button - Top Right */}
               <button
+                ref={closeButtonRef}
                 onClick={onClose}
                 className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary/50 shadow-lg"
                 aria-label="Close drawer"

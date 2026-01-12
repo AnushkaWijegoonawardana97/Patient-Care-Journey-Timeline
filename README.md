@@ -60,6 +60,12 @@ npm run test
 # Run tests with coverage
 npm run test:coverage
 
+# Run accessibility tests
+npm run test:a11y
+
+# Run accessibility audit
+npm run a11y:audit
+
 # Build for production
 npm run build
 ```
@@ -89,3 +95,27 @@ See `instructions/requirements/requirements.md` for complete project requirement
 ## Development Guidelines
 
 See `instructions/rules/cursor-guidelines/cursor-rules.md` for complete development guidelines.
+
+## Accessibility
+
+This application is designed to meet WCAG 2.1 Level AA compliance standards. Key accessibility features include:
+
+- **Keyboard Navigation**: All functionality is accessible via keyboard
+- **Screen Reader Support**: Proper ARIA attributes and semantic HTML
+- **Focus Management**: Visible focus indicators and proper focus traps
+- **Color Contrast**: Meets WCAG AA contrast requirements
+- **Skip Links**: Quick navigation to main content
+
+For detailed accessibility information, see:
+- `docs/ACCESSIBILITY.md` - Accessibility guidelines and practices
+- `docs/ACCESSIBILITY_AUDIT_REPORT.md` - Audit findings and fixes
+
+### Testing Accessibility
+
+```bash
+# Run accessibility-specific tests
+npm run test:a11y
+
+# Run automated accessibility audit
+npm run a11y:audit
+```

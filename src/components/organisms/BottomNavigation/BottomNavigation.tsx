@@ -44,6 +44,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
                   ? "text-secondary-success dark:text-secondary-success"
                   : "text-text-secondary dark:text-muted-foreground"
               )}
+              aria-current={isActive ? "page" : undefined}
             >
               <Icon className={cn("h-5 w-5", isActive && "text-secondary-success dark:text-secondary-success")} />
               <span className="text-xs font-medium">{item.label}</span>

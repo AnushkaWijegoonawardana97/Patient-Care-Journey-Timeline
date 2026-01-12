@@ -59,19 +59,19 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
   const Icon = config.icon;
 
   return (
-    <div className="relative pl-12 pb-8">
+    <article className="relative pl-12 pb-8" aria-labelledby={`milestone-${milestone.id}-title`}>
       {/* Timeline connector line */}
       {!isLast && (
-        <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 dark:from-gray-600 to-transparent -translate-x-1/2" />
+        <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gradient-to-b from-gray-200 dark:from-gray-600 to-transparent -translate-x-1/2" aria-hidden="true" />
       )}
 
       {/* Celebratory icon marker */}
-      <div className="absolute left-6 top-2 -translate-x-1/2 z-10">
+      <div className="absolute left-6 top-2 -translate-x-1/2 z-10" aria-hidden="true">
         <div className={cn("w-12 h-12 rounded-full flex items-center justify-center shadow-lg", config.iconBg)}>
-          <Icon className={cn("w-6 h-6", config.iconColor)} />
+          <Icon className={cn("w-6 h-6", config.iconColor)} aria-hidden="true" />
         </div>
         {/* Decorative sparkle effect */}
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 dark:bg-yellow-400 rounded-full opacity-75 dark:opacity-90 animate-pulse" />
+        <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-300 dark:bg-yellow-400 rounded-full opacity-75 dark:opacity-90 animate-pulse" aria-hidden="true" />
       </div>
 
       {/* Milestone card */}
@@ -95,13 +95,13 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
             >
               {config.badgeText}
             </span>
-            <span className="text-xs font-medium text-text-secondary dark:text-gray-300">
+            <time dateTime={milestone.date} className="text-xs font-medium text-text-secondary dark:text-gray-300">
               {format(new Date(milestone.date), "MMM d, yyyy")}
-            </span>
+            </time>
           </div>
 
           {/* Title */}
-          <h3 className="text-lg font-bold text-text-primary dark:text-white mb-1">{milestone.title}</h3>
+          <h3 id={`milestone-${milestone.id}-title`} className="text-lg font-bold text-text-primary dark:text-white mb-1">{milestone.title}</h3>
 
           {/* Description */}
           {milestone.description && (
@@ -109,15 +109,15 @@ export const MilestoneMarker: React.FC<MilestoneMarkerProps> = ({ milestone, isL
           )}
 
           {/* Celebration decoration */}
-          <div className="flex items-center gap-1 mt-3 pt-3 border-t border-white/50 dark:border-gray-700/50">
-            <Sparkles className="w-4 h-4 text-yellow-500 dark:text-yellow-400" />
+          <div className="flex items-center gap-1 mt-3 pt-3 border-t border-white/50 dark:border-gray-700/50" aria-hidden="true">
+            <Sparkles className="w-4 h-4 text-yellow-500 dark:text-yellow-400" aria-hidden="true" />
             <span className="text-xs font-medium text-text-secondary dark:text-gray-400 italic">
               A special moment in your journey
             </span>
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

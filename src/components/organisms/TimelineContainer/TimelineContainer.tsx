@@ -61,22 +61,22 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
   }, [visits, milestones, patient.insuranceType, patient.carePathway]);
 
   return (
-    <div className="p-4 sm:p-6 bg-white dark:bg-card rounded-lg shadow-sm border border-gray-100 dark:border-border min-h-[600px]">
+    <section className="p-4 sm:p-6 bg-white dark:bg-card rounded-lg shadow-sm border border-gray-100 dark:border-border min-h-[600px]" aria-labelledby="timeline-heading">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-white">Your Care Journey</h2>
+        <h2 id="timeline-heading" className="text-2xl font-bold text-text-primary dark:text-white">Your Care Journey</h2>
         <p className="text-text-secondary dark:text-gray-300">Timeline of your visits and important milestones</p>
       </div>
 
       <div className="relative">
         {timelineItems.length === 0 ? (
-          <div className="text-center py-10 text-text-secondary dark:text-gray-400">No journey items found.</div>
+          <div className="text-center py-10 text-text-secondary dark:text-gray-400" role="status" aria-live="polite">No journey items found.</div>
         ) : (
           <>
             {/* Central vertical timeline line - visible on desktop */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600 -translate-x-1/2 hidden lg:block" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600 -translate-x-1/2 hidden lg:block" aria-hidden="true" />
 
             {/* Timeline items with alternating layout */}
-            <div className="relative space-y-6 lg:space-y-12">
+            <ol className="relative space-y-6 lg:space-y-12" role="list">
               {timelineItems.map((item, index) => {
                 const isLast = index === timelineItems.length - 1;
                 const isEven = index % 2 === 0;
@@ -84,7 +84,7 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
 
                 if (item.type === "visit") {
                   return (
-                    <div
+                    <li
                       key={item.data.id}
                       className={cn(
                         "relative flex items-start",
@@ -106,11 +106,11 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
                           onClick={() => onVisitClick?.(item.data)}
                         />
                       </div>
-                    </div>
+                    </li>
                   );
                 } else {
                   return (
-                    <div
+                    <li
                       key={item.data.id}
                       className={cn(
                         "relative flex items-start",
@@ -128,15 +128,15 @@ export const TimelineContainer: React.FC<TimelineContainerProps> = ({
                       <div className="w-full">
                         <MilestoneMarker milestone={item.data} isLast={isLast} />
                       </div>
-                    </div>
+                    </li>
                   );
                 }
               })}
-            </div>
+            </ol>
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { NavigationItem } from "@/components/molecules/NavigationItem/NavigationItem";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export interface SidebarNavigationProps {
   activeNavItem?: string;
@@ -15,6 +16,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
   const { t } = useTranslation();
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
   const navigate = useNavigate();
+  const sidebarRef = React.useRef<HTMLElement>(null);
 
   const navigationItems = [
     { icon: LayoutDashboard, label: t("navigation.dashboard"), to: "/dashboard", key: "dashboard" },
@@ -28,6 +30,25 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     navigate("/");
   };
 
+  // Focus trap for mobile menu
+  useFocusTrap(isMobileOpen, sidebarRef);
+
+  // Escape key handler for mobile menu
+  React.useEffect(() => {
+    if (!isMobileOpen) return;
+
+    const handleEscape = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") {
+        setIsMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isMobileOpen]);
+
   return (
     <>
       {/* Mobile Menu Button */}
@@ -35,6 +56,8 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow-md hover:bg-gray-50"
         aria-label="Toggle menu"
+        aria-expanded={isMobileOpen}
+        aria-controls="sidebar-navigation"
       >
         {isMobileOpen ? (
           <X className="h-6 w-6 text-text-primary" />
@@ -45,11 +68,15 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
 
       {/* Sidebar */}
       <aside
+        ref={sidebarRef}
+        id="sidebar-navigation"
         className={cn(
           "fixed lg:sticky top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 z-40 transition-transform duration-300",
           "lg:translate-x-0",
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="flex flex-col h-full p-6">
           {/* Logo */}
