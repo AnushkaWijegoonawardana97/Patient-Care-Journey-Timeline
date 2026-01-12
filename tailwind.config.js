@@ -14,6 +14,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"GeneralSans Variable"', "sans-serif"],
+      },
       colors: {
         // Primary colors (based on #21404b)
         primary: {
@@ -38,7 +41,7 @@ export default {
           error: "#EF4444",
           neutral: "#9CA3AF",
         },
-        // Typography colors
+        // Typography colors - with dark mode support
         text: {
           primary: "#111827",
           secondary: "#6B7280",

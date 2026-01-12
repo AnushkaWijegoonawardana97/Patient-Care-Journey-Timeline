@@ -1,0 +1,196 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "careJourney": "Care Journey",
+    "addOnServices": "Add-On Services",
+    "addOn": "Add-On",
+    "settings": "Settings",
+    "logout": "Logout",
+    "patientId": "Patient ID"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to continue your care journey",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "signIn": "Sign In",
+      "signInWithGoogle": "Sign in with Google",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "emailPlaceholder": "name@rayahealth.com",
+      "passwordPlaceholder": "at least 8 characters",
+      "loginFailed": "Login failed. Please try again."
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Start your care journey with us",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "acceptTerms": "I accept the Terms and Conditions",
+      "signUp": "Sign Up",
+      "signUpWithGoogle": "Sign up with Google",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "namePlaceholder": "John Doe",
+      "emailPlaceholder": "name@rayahealth.com",
+      "passwordPlaceholder": "at least 8 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "registrationFailed": "Registration failed. Please try again."
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}!",
+    "promptMessage": "How would you like to continue your care journey today?",
+    "viewCareJourney": "View Care Journey",
+    "viewProgress": "View Progress",
+    "currentPhase": "Current Phase",
+    "visitProgress": "Visit Progress",
+    "nextVisit": "Next Visit",
+    "journeyStatus": "Journey Status",
+    "upcomingMilestone": "Upcoming Milestone",
+    "lastCompletedVisit": "Last Completed Visit",
+    "onTrack": "On Track",
+    "needsAttention": "Needs Attention",
+    "allAppointmentsScheduled": "All appointments scheduled",
+    "missedVisits": "{{count}} missed visit(s)",
+    "noMilestonesAvailable": "No milestones available",
+    "completed": "{{completed}} of {{total}} completed",
+    "checkUp": "Check-up",
+    "initialConsultation": "Initial Consultation"
+  },
+  "careJourney": {
+    "title": "Care Journey",
+    "subtitle": "Your complete care timeline",
+    "unableToLoad": "Unable to Load Journey",
+    "unableToLoadMessage": "We couldn't load your care journey data. Please check your connection and try again.",
+    "noJourneyData": "No Journey Data",
+    "noJourneyDataMessage": "We couldn't find any journey data. Please contact support if this issue persists."
+  },
+  "visits": {
+    "types": {
+      "initial": "Initial Consultation",
+      "prenatalPostpartum": "Prenatal/Postpartum Visit",
+      "prenatalPostpartumWithNumber": "Prenatal/Postpartum Visit {{number}} of {{total}}",
+      "extendedPostpartum": "Extended Postpartum Visit {{number}}",
+      "additionalPostpartum": "Additional Postpartum Visit {{number}}",
+      "laborDelivery": "Labor & Delivery",
+      "pregnancyLoss": "Pregnancy Loss Support"
+    },
+    "status": {
+      "completed": "Completed",
+      "scheduled": "Scheduled",
+      "available": "Available",
+      "missed": "Missed",
+      "cancelled": "Cancelled"
+    },
+    "labels": {
+      "scheduledFor": "Scheduled for",
+      "completedOn": "Completed on",
+      "assignedDoula": "Assigned Doula",
+      "visitNotes": "Visit Notes",
+      "noNotes": "No notes available for this visit.",
+      "viewDetails": "View Details"
+    }
+  },
+  "phases": {
+    "firstTrimester": "First Trimester",
+    "secondTrimester": "Second Trimester",
+    "thirdTrimester": "Third Trimester",
+    "postpartum": "Postpartum"
+  },
+  "addOnServices": {
+    "title": "Add-On Services",
+    "subtitle": "Optional services to enhance your care journey",
+    "unableToLoad": "Unable to Load Services",
+    "unableToLoadMessage": "We couldn't load the add-on services. Please check your connection and try again.",
+    "comingSoon": "Coming Soon",
+    "optionalAddon": "Optional Add-On",
+    "services": {
+      "acupuncture": {
+        "name": "Acupuncture",
+        "description": "Support your wellness journey with traditional acupuncture techniques designed to promote relaxation and balance."
+      },
+      "chiropractic": {
+        "name": "Chiropractic Care",
+        "description": "Gentle chiropractic adjustments to help alleviate pregnancy-related discomfort and support natural alignment."
+      },
+      "overnightDoula": {
+        "name": "Overnight Doula Care",
+        "description": "Receive additional support during overnight hours to help you rest and recover while ensuring your baby's needs are met."
+      },
+      "prenatalMassage": {
+        "name": "Prenatal Massage",
+        "description": "Specialized massage therapy tailored for expectant mothers to reduce tension and promote relaxation."
+      },
+      "postpartumMassage": {
+        "name": "Postpartum Massage",
+        "description": "Therapeutic massage designed to support your body's recovery after birth and ease muscle tension."
+      },
+      "pelvicFloorTherapy": {
+        "name": "Pelvic Floor Therapy",
+        "description": "Specialized support for pelvic health through gentle exercises to strengthen and restore function."
+      }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your preferences and account",
+    "preferences": "Preferences",
+    "language": "Language",
+    "languageDescription": "Choose your preferred language",
+    "theme": "Theme",
+    "themeDescription": "Choose your preferred theme",
+    "profile": "Profile",
+    "gender": "Gender",
+    "age": "Age",
+    "height": "Height",
+    "bloodType": "Blood Type",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address"
+  },
+  "common": {
+    "buttons": {
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close",
+      "tryAgain": "Try Again",
+      "retry": "Retry",
+      "loading": "Loading...",
+      "continue": "Continue",
+      "back": "Back",
+      "next": "Next"
+    },
+    "errors": {
+      "generic": "Something went wrong",
+      "networkError": "Network error. Please check your connection.",
+      "unauthorized": "You are not authorized to perform this action.",
+      "notFound": "The requested resource was not found.",
+      "serverError": "Server error. Please try again later."
+    },
+    "empty": {
+      "noData": "No data available",
+      "noResults": "No results found"
+    },
+    "loading": "Loading...",
+    "language": "Language",
+    "changeLanguage": "Change language",
+    "english": "English",
+    "spanish": "Spanish",
+    "displayOnly": "Display only (coming soon)"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "genericMessage": "We couldn't load the data. Please check your connection and try again.",
+    "unableToLoad": "Unable to Load",
+    "networkError": "Network error. Please check your connection and try again."
+  }
+}

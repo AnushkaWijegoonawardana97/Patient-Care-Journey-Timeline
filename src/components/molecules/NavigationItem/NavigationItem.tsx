@@ -28,8 +28,9 @@ export const NavigationItem: React.FC<NavigationItemProps> = ({
           ? "bg-primary-light text-primary"
           : "text-text-secondary hover:bg-gray-100 hover:text-text-primary"
       )}
+      aria-current={isActive ? "page" : undefined}
     >
-      <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "")} />
+      <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "")} aria-hidden="true" />
       <span>{label}</span>
     </Link>
   );

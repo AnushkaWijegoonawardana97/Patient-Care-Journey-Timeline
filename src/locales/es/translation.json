@@ -1,0 +1,196 @@
+{
+  "navigation": {
+    "dashboard": "Panel",
+    "careJourney": "Recorrido de Atención",
+    "addOnServices": "Servicios Adicionales",
+    "addOn": "Adicionales",
+    "settings": "Configuración",
+    "logout": "Cerrar Sesión",
+    "patientId": "ID del Paciente"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de Nuevo",
+      "subtitle": "Inicia sesión para continuar tu recorrido de atención",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "rememberMe": "Recordarme",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "signIn": "Iniciar Sesión",
+      "signInWithGoogle": "Iniciar sesión con Google",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Regístrate",
+      "emailPlaceholder": "nombre@rayahealth.com",
+      "passwordPlaceholder": "al menos 8 caracteres",
+      "loginFailed": "Error al iniciar sesión. Por favor, inténtalo de nuevo."
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "subtitle": "Comienza tu recorrido de atención con nosotros",
+      "fullName": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "acceptTerms": "Acepto los Términos y Condiciones",
+      "signUp": "Registrarse",
+      "signUpWithGoogle": "Registrarse con Google",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Iniciar sesión",
+      "namePlaceholder": "Juan Pérez",
+      "emailPlaceholder": "nombre@rayahealth.com",
+      "passwordPlaceholder": "al menos 8 caracteres",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
+      "registrationFailed": "Error al registrarse. Por favor, inténtalo de nuevo."
+    }
+  },
+  "dashboard": {
+    "welcome": "¡Bienvenida, {{name}}!",
+    "promptMessage": "¿Cómo te gustaría continuar tu recorrido de atención hoy?",
+    "viewCareJourney": "Ver Recorrido de Atención",
+    "viewProgress": "Ver Progreso",
+    "currentPhase": "Fase Actual",
+    "visitProgress": "Progreso de Visitas",
+    "nextVisit": "Próxima Visita",
+    "journeyStatus": "Estado del Recorrido",
+    "upcomingMilestone": "Hito Próximo",
+    "lastCompletedVisit": "Última Visita Completada",
+    "onTrack": "En Camino",
+    "needsAttention": "Necesita Atención",
+    "allAppointmentsScheduled": "Todas las citas programadas",
+    "missedVisits": "{{count}} visita(s) perdida(s)",
+    "noMilestonesAvailable": "No hay hitos disponibles",
+    "completed": "{{completed}} de {{total}} completadas",
+    "checkUp": "Consulta",
+    "initialConsultation": "Consulta Inicial"
+  },
+  "careJourney": {
+    "title": "Recorrido de Atención",
+    "subtitle": "Tu línea de tiempo completa de atención",
+    "unableToLoad": "No se Puede Cargar el Recorrido",
+    "unableToLoadMessage": "No pudimos cargar los datos de tu recorrido de atención. Por favor, verifica tu conexión e inténtalo de nuevo.",
+    "noJourneyData": "Sin Datos del Recorrido",
+    "noJourneyDataMessage": "No pudimos encontrar datos del recorrido. Por favor, contacta al soporte si este problema persiste."
+  },
+  "visits": {
+    "types": {
+      "initial": "Consulta Inicial",
+      "prenatalPostpartum": "Visita Prenatal/Postparto",
+      "prenatalPostpartumWithNumber": "Visita Prenatal/Postparto {{number}} de {{total}}",
+      "extendedPostpartum": "Visita de Postparto Extendida {{number}}",
+      "additionalPostpartum": "Visita de Postparto Adicional {{number}}",
+      "laborDelivery": "Trabajo de Parto y Nacimiento",
+      "pregnancyLoss": "Apoyo por Pérdida de Embarazo"
+    },
+    "status": {
+      "completed": "Completada",
+      "scheduled": "Programada",
+      "available": "Disponible",
+      "missed": "Perdida",
+      "cancelled": "Cancelada"
+    },
+    "labels": {
+      "scheduledFor": "Programada para",
+      "completedOn": "Completada el",
+      "assignedDoula": "Doula Asignada",
+      "visitNotes": "Notas de la Visita",
+      "noNotes": "No hay notas disponibles para esta visita.",
+      "viewDetails": "Ver Detalles"
+    }
+  },
+  "phases": {
+    "firstTrimester": "Primer Trimestre",
+    "secondTrimester": "Segundo Trimestre",
+    "thirdTrimester": "Tercer Trimestre",
+    "postpartum": "Postparto"
+  },
+  "addOnServices": {
+    "title": "Servicios Adicionales",
+    "subtitle": "Servicios opcionales para mejorar tu recorrido de atención",
+    "unableToLoad": "No se Pueden Cargar los Servicios",
+    "unableToLoadMessage": "No pudimos cargar los servicios adicionales. Por favor, verifica tu conexión e inténtalo de nuevo.",
+    "comingSoon": "Próximamente",
+    "optionalAddon": "Adicional Opcional",
+    "services": {
+      "acupuncture": {
+        "name": "Acupuntura",
+        "description": "Apoya tu recorrido de bienestar con técnicas tradicionales de acupuntura diseñadas para promover la relajación y el equilibrio."
+      },
+      "chiropractic": {
+        "name": "Atención Quiropráctica",
+        "description": "Ajustes quiroprácticos suaves para ayudar a aliviar las molestias relacionadas con el embarazo y apoyar la alineación natural."
+      },
+      "overnightDoula": {
+        "name": "Atención de Doula Nocturna",
+        "description": "Recibe apoyo adicional durante las horas nocturnas para ayudarte a descansar y recuperarte mientras se satisfacen las necesidades de tu bebé."
+      },
+      "prenatalMassage": {
+        "name": "Masaje Prenatal",
+        "description": "Terapia de masaje especializada adaptada para mujeres embarazadas para reducir la tensión y promover la relajación."
+      },
+      "postpartumMassage": {
+        "name": "Masaje Postparto",
+        "description": "Masaje terapéutico diseñado para apoyar la recuperación de tu cuerpo después del parto y aliviar la tensión muscular."
+      },
+      "pelvicFloorTherapy": {
+        "name": "Terapia del Suelo Pélvico",
+        "description": "Apoyo especializado para la salud pélvica a través de ejercicios suaves para fortalecer y restaurar la función."
+      }
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Administra tus preferencias y cuenta",
+    "preferences": "Preferencias",
+    "language": "Idioma",
+    "languageDescription": "Elige tu idioma preferido",
+    "theme": "Tema",
+    "themeDescription": "Elige tu tema preferido",
+    "profile": "Perfil",
+    "gender": "Género",
+    "age": "Edad",
+    "height": "Estatura",
+    "bloodType": "Tipo de Sangre",
+    "email": "Correo Electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección"
+  },
+  "common": {
+    "buttons": {
+      "submit": "Enviar",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "close": "Cerrar",
+      "tryAgain": "Intentar de Nuevo",
+      "retry": "Reintentar",
+      "loading": "Cargando...",
+      "continue": "Continuar",
+      "back": "Atrás",
+      "next": "Siguiente"
+    },
+    "errors": {
+      "generic": "Algo salió mal",
+      "networkError": "Error de red. Por favor, verifica tu conexión.",
+      "unauthorized": "No estás autorizado para realizar esta acción.",
+      "notFound": "El recurso solicitado no se encontró.",
+      "serverError": "Error del servidor. Por favor, inténtalo más tarde."
+    },
+    "empty": {
+      "noData": "No hay datos disponibles",
+      "noResults": "No se encontraron resultados"
+    },
+    "loading": "Cargando...",
+    "language": "Idioma",
+    "changeLanguage": "Cambiar idioma",
+    "english": "Inglés",
+    "spanish": "Español",
+    "displayOnly": "Solo visualización (próximamente)"
+  },
+  "errors": {
+    "generic": "Algo salió mal",
+    "genericMessage": "No pudimos cargar los datos. Por favor, verifica tu conexión e inténtalo de nuevo.",
+    "unableToLoad": "No se Puede Cargar",
+    "networkError": "Error de red. Por favor, verifica tu conexión e inténtalo de nuevo."
+  }
+}

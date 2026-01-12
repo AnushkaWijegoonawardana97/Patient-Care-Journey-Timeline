@@ -36,6 +36,8 @@ export const FormField: React.FC<FormFieldProps> = ({
         placeholder={placeholder}
         aria-invalid={error ? 'true' : 'false'}
         aria-describedby={error ? `${id}-error` : undefined}
+        aria-required={required}
+        required={required}
         className={error ? 'border-tertiary-error focus-visible:ring-tertiary-error' : ''}
         {...inputProps}
       />

@@ -60,9 +60,26 @@ npm run test
 # Run tests with coverage
 npm run test:coverage
 
+# Run accessibility tests
+npm run test:a11y
+
+# Run accessibility audit
+npm run a11y:audit
+
 # Build for production
 npm run build
 ```
+
+## Dummy Login Credentials
+
+For development and testing purposes, the application includes a dummy login system.
+
+**Login Credentials:**
+
+- **Email**: `maria.santos@example.com`
+- **Password**: `password123`
+
+**Note**: This is for development/testing only. See [docs/DUMMY_LOGIN.md](docs/DUMMY_LOGIN.md) for more details.
 
 ## Commit Message Format
 
@@ -89,3 +106,56 @@ See `instructions/requirements/requirements.md` for complete project requirement
 ## Development Guidelines
 
 See `instructions/rules/cursor-guidelines/cursor-rules.md` for complete development guidelines.
+
+## Technology Stack
+
+This application is built with modern web technologies:
+
+- **React 18+** - Functional components with hooks
+- **TypeScript** - Strict type checking for type safety
+- **Tailwind CSS** - Utility-first styling framework
+- **Vite** - Fast build tool and development server
+- **React Query (TanStack Query)** - Server state management
+- **MSW (Mock Service Worker)** - API mocking for development
+- **React Router** - Client-side routing
+- **date-fns** - Date manipulation utilities
+- **Framer Motion** - Animation library
+
+## Documentation
+
+For comprehensive documentation, see:
+
+- **[DOCUMENTATION.md](docs/DOCUMENTATION.md)** - Complete documentation including:
+  - Architecture decisions and system design
+  - Technical decisions and tradeoffs
+  - Dummy login implementation details
+  - Add-on services feature approach
+  - Future improvements and enhancements
+- **[ACCESSIBILITY.md](docs/ACCESSIBILITY.md)** - Accessibility guidelines and practices
+- **[ACCESSIBILITY_AUDIT_REPORT.md](docs/ACCESSIBILITY_AUDIT_REPORT.md)** - Accessibility audit findings and fixes
+
+## Accessibility
+
+This application is designed to meet WCAG 2.1 Level AA compliance standards. Key accessibility features include:
+
+- **Keyboard Navigation**: All functionality is accessible via keyboard
+- **Screen Reader Support**: Proper ARIA attributes and semantic HTML
+- **Focus Management**: Visible focus indicators and proper focus traps
+- **Color Contrast**: Meets WCAG AA contrast requirements
+- **Skip Links**: Quick navigation to main content
+- **Reduced Motion**: All animations respect `prefers-reduced-motion`
+
+For detailed accessibility information, see:
+
+- `docs/ACCESSIBILITY.md` - Accessibility guidelines and practices
+- `docs/ACCESSIBILITY_AUDIT_REPORT.md` - Audit findings and fixes
+
+### Testing Accessibility
+
+```bash
+# Run accessibility-specific tests
+npm run test:a11y
+
+# Run automated accessibility audit
+npm run a11y:audit
+```
