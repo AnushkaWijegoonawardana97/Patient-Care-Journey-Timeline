@@ -34,3 +34,16 @@ coverage
 .env
 .env.local
 .env.*.local
+
+# Temporarily ignored images
+public/acupuncture-image.jpg
+public/chiropractic-image.jpg
+public/doula-avatar.JPG
+public/login-page-image.jpg
+public/logo-dark.png
+public/overnight-doula-image.jpg
+public/patient-avatar.jpg
+public/pelvic-floor-therapy-image.jpg
+public/postpartum-massage-image.jpg
+public/prenatal-massage-image.jpg
+public/register-page-image.jpg
